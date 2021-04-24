@@ -39,4 +39,7 @@ public class Prefs {
         return getPrefs().get(Keys.MEDIA_COLUMNS_LANDSCAPE, DefaultPrefs.MEDIA_COLUMNS_LANDSCAPE);
     }
 
+    public static boolean showVideos() {
+        return true;
+    }
 }
