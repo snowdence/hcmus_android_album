@@ -35,17 +35,16 @@ import com.orhanobut.hawk.Hawk;
 import com.wifosoft.wumbum.BuildConfig;
 import com.wifosoft.wumbum.R;
 import com.wifosoft.wumbum.activities.base.SharedMediaActivity;
-
-import com.wifosoft.wumbum.fragments.AlbumsFragment;
-import com.wifosoft.wumbum.fragments.EditModeListener;
-import com.wifosoft.wumbum.fragments.NothingToShowListener;
-import com.wifosoft.wumbum.fragments.RvMediaFragment;
-import com.wifosoft.wumbum.interfaces.MediaClickListener;
+//
+//import com.wifosoft.wumbum.fragments.AlbumsFragment;
+//import com.wifosoft.wumbum.fragments.RvMediaFragment;
+import com.wifosoft.wumbum.helper.AlertDialogsHelper;
+import com.wifosoft.wumbum.interfaces.IEditModeListener;
+import com.wifosoft.wumbum.interfaces.IMediaClickListener;
+import com.wifosoft.wumbum.interfaces.INothingToShowListener;
 import com.wifosoft.wumbum.model.Album;
-import com.wifosoft.wumbum.timeline.TimelineFragment;
-import com.wifosoft.wumbum.util.AlertDialogsHelper;
-import com.wifosoft.wumbum.util.LegacyCompatFileProvider;
-import com.wifosoft.wumbum.util.Security;
+import com.wifosoft.wumbum.model.Media;
+
 import com.wifosoft.wumbum.util.StringUtils;
 import com.wifosoft.wumbum.util.preferences.Prefs;
 import com.wifosoft.wumbum.views.navigation_drawer.NavigationDrawer;
@@ -72,12 +71,31 @@ import static com.wifosoft.wumbum.views.navigation_drawer.NavigationDrawer.Navig
  * The Main Activity used to display Albums / Media.
  */
 public class MainActivity extends SharedMediaActivity implements
-        MediaClickListener, AlbumsFragment.AlbumClickListener,
-        NothingToShowListener, EditModeListener, ItemListener {
+        IMediaClickListener, AlbumsFragment.AlbumClickListener,
+        INothingToShowListener, ItemListener , IEditModeListener {
 
     public static final String ARGS_PICK_MODE = "pick_mode";
 
     private static final String SAVE_FRAGMENT_MODE = "fragment_mode";
+
+    @Override
+    public void changedEditMode(boolean editMode, int selected, int total, @Nullable View.OnClickListener listener, @Nullable String title) {
+        if (editMode) {
+            updateToolbar(
+                    getString(R.string.toolbar_selection_count, selected, total),
+                    GoogleMaterial.Icon.gmd_check, listener);
+        } else if (inAlbumMode()) {
+            showDefaultToolbar();
+        } else {
+            updateToolbar(title, GoogleMaterial.Icon.gmd_arrow_back, v -> goBackToAlbums());
+        }
+    }
+
+    @Override
+    public void onItemsSelected(int count, int total) {
+        toolbar.setTitle(getString(R.string.toolbar_selection_count, count, total));
+
+    }
 
     public @interface FragmentMode {
         int MODE_ALBUMS = 1001;
@@ -92,8 +110,7 @@ public class MainActivity extends SharedMediaActivity implements
     @BindView(R.id.coordinator_main_layout) CoordinatorLayout mainLayout;
 
     private AlbumsFragment albumsFragment;
-    private RvMediaFragment rvMediaFragment;
-    private TimelineFragment timelineFragment;
+    //private RvMediaFragment rvMediaFragment;
 
     private boolean pickMode = false;
     private Unbinder unbinder;
@@ -123,8 +140,10 @@ public class MainActivity extends SharedMediaActivity implements
         switch (fragmentMode) {
 
             case FragmentMode.MODE_MEDIA:
-                rvMediaFragment = (RvMediaFragment) getSupportFragmentManager().findFragmentByTag(RvMediaFragment.TAG);
-                rvMediaFragment.setListener(this);
+                //TODO View all media
+//                rvMediaFragment = (RvMediaFragment) getSupportFragmentManager().findFragmentByTag(RvMediaFragment.TAG);
+//                rvMediaFragment.setListener(this);
+//
                 break;
 
             case FragmentMode.MODE_ALBUMS:
@@ -132,7 +151,8 @@ public class MainActivity extends SharedMediaActivity implements
                 break;
 
             case FragmentMode.MODE_TIMELINE:
-                setupUiForTimeline();
+                //setupUiForTimeline();
+                break;
         }
     }
 
@@ -167,36 +187,9 @@ public class MainActivity extends SharedMediaActivity implements
         setContentFragment();
     }
 
-    public void displayMedia(Album album) {
-        unreferenceFragments();
-        rvMediaFragment = RvMediaFragment.make(album);
 
-        fragmentMode = FragmentMode.MODE_MEDIA;
-        lockNavigationDrawer();
 
-        rvMediaFragment.setListener(this);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.content, rvMediaFragment, RvMediaFragment.TAG)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    public void displayTimeline(Album album) {
-        unreferenceFragments();
-        timelineFragment = TimelineFragment.Companion.newInstance(album);
-
-        fragmentMode = FragmentMode.MODE_TIMELINE;
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.content, timelineFragment, TimelineFragment.TAG)
-                .addToBackStack(null)
-                .commit();
-
-        setupUiForTimeline();
-    }
 
     @Override
     protected void onDestroy() {
@@ -206,56 +199,40 @@ public class MainActivity extends SharedMediaActivity implements
 
     @Override
     public void onMediaClick(Album album, ArrayList<Media> media, int position) {
-
-        if (!pickMode) {
-            Intent intent = new Intent(getApplicationContext(), SingleMediaActivity.class);
-            intent.putExtra(SingleMediaActivity.EXTRA_ARGS_ALBUM, album);
-            try {
-                intent.setAction(SingleMediaActivity.ACTION_OPEN_ALBUM);
-                intent.putExtra(SingleMediaActivity.EXTRA_ARGS_MEDIA, media);
-                intent.putExtra(SingleMediaActivity.EXTRA_ARGS_POSITION, position);
-                startActivity(intent);
-            } catch (Exception e) { // Putting too much data into the Bundle
-                // TODO: Find a better way to pass data between the activities - possibly a key to
-                // access a HashMap or a unique value of a singleton Data Repository of some sort.
-                intent.setAction(SingleMediaActivity.ACTION_OPEN_ALBUM_LAZY);
-                intent.putExtra(SingleMediaActivity.EXTRA_ARGS_MEDIA, media.get(position));
-                startActivity(intent);
-            }
-
-        } else {
-
-            Media m = media.get(position);
-            Uri uri = LegacyCompatFileProvider.getUri(getApplicationContext(), m.getFile());
-            Intent res = new Intent();
-            res.setData(uri);
-            res.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            setResult(RESULT_OK, res);
-            finish();
-        }
+    //TODO media click
+        Toast.makeText(this, "onMediaClick()", Toast.LENGTH_SHORT).show();
+        //
+//        if (!pickMode) {
+//            Intent intent = new Intent(getApplicationContext(), SingleMediaActivity.class);
+//            intent.putExtra(SingleMediaActivity.EXTRA_ARGS_ALBUM, album);
+//            try {
+//                intent.setAction(SingleMediaActivity.ACTION_OPEN_ALBUM);
+//                intent.putExtra(SingleMediaActivity.EXTRA_ARGS_MEDIA, media);
+//                intent.putExtra(SingleMediaActivity.EXTRA_ARGS_POSITION, position);
+//                startActivity(intent);
+//            } catch (Exception e) { // Putting too much data into the Bundle
+//                // TODO: Find a better way to pass data between the activities - possibly a key to
+//                // access a HashMap or a unique value of a singleton Data Repository of some sort.
+//                intent.setAction(SingleMediaActivity.ACTION_OPEN_ALBUM_LAZY);
+//                intent.putExtra(SingleMediaActivity.EXTRA_ARGS_MEDIA, media.get(position));
+//                startActivity(intent);
+//            }
+//
+//        } else {
+//
+//            Media m = media.get(position);
+//            Uri uri = LegacyCompatFileProvider.getUri(getApplicationContext(), m.getFile());
+//            Intent res = new Intent();
+//            res.setData(uri);
+//            res.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//            setResult(RESULT_OK, res);
+//            finish();
+//        }
     }
 
     @Override
     public void changedNothingToShow(boolean nothingToShow) {
         enableNothingToSHowPlaceHolder(nothingToShow);
-    }
-
-    @Override
-    public void changedEditMode(boolean editMode, int selected, int total, @Nullable View.OnClickListener listener, @Nullable String title) {
-        if (editMode) {
-            updateToolbar(
-                    getString(R.string.toolbar_selection_count, selected, total),
-                    GoogleMaterial.Icon.gmd_check, listener);
-        } else if (inAlbumMode()) {
-            showDefaultToolbar();
-        } else {
-            updateToolbar(title, GoogleMaterial.Icon.gmd_arrow_back, v -> goBackToAlbums());
-        }
-    }
-
-    @Override
-    public void onItemsSelected(int count, int total) {
-        toolbar.setTitle(getString(R.string.toolbar_selection_count, count, total));
     }
 
     @Override
@@ -280,8 +257,6 @@ public class MainActivity extends SharedMediaActivity implements
         // TODO Calvin: This is a hack for the current back button behavior.
         // Refactor the logic to avoid these member variables.
         // Allow the GC to reclaim the fragments for now
-        timelineFragment = null;
-        rvMediaFragment = null;
         albumsFragment = null;
     }
 
@@ -312,42 +287,9 @@ public class MainActivity extends SharedMediaActivity implements
         navigationDrawer.closeDrawer(GravityCompat.START);
     }
 
-    private void askPassword() {
-
-        Security.authenticateUser(MainActivity.this, new Security.AuthCallBack() {
-            @Override
-            public void onAuthenticated() {
-                closeDrawer();
-                selectNavigationItem(NAVIGATION_ITEM_HIDDEN_FOLDERS);
-                displayAlbums(true);
-            }
-
-            @Override
-            public void onError() {
-                Toast.makeText(getApplicationContext(), R.string.wrong_password, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     @Override
     protected void onPostResume() {
         super.onPostResume();
-
-        new Thread(() -> {
-            if (Prefs.getLastVersionCode() < BuildConfig.VERSION_CODE) {
-                String titleHtml = String.format(Locale.ENGLISH, "<font color='%d'>%s <b>%s</b></font>", getTextColor(), getString(R.string.changelog), BuildConfig.VERSION_NAME),
-                        buttonHtml = String.format(Locale.ENGLISH, "<font color='%d'>%s</font>", getAccentColor(), getString(R.string.view).toUpperCase());
-                Snackbar snackbar = Snackbar
-                        .make(mainLayout, StringUtils.html(titleHtml), Snackbar.LENGTH_LONG)
-                        .setAction(StringUtils.html(buttonHtml), view -> AlertDialogsHelper.showChangelogDialog(MainActivity.this));
-                View snackbarView = snackbar.getView();
-                snackbarView.setBackgroundColor(getBackgroundColor());
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    snackbarView.setElevation(getResources().getDimension(R.dimen.snackbar_elevation));
-                snackbar.show();
-                Prefs.setLastVersionCode(BuildConfig.VERSION_CODE);
-            }
-        }).start();
     }
 
     @CallSuper
@@ -428,7 +370,8 @@ public class MainActivity extends SharedMediaActivity implements
         switch (item.getItemId()) {
 
             case R.id.settings:
-                SettingsActivity.startActivity(this);
+                Toast.makeText(this, "Setting screen" ,Toast.LENGTH_SHORT );
+                //SettingsActivity.startActivity(this);
                 return true;
 
             /*
@@ -537,17 +480,17 @@ public class MainActivity extends SharedMediaActivity implements
                 else finish();
             }
 
-        } else if (inTimelineMode() && !timelineFragment.onBackPressed()) {
-            goBackToAlbums();
-
-        } else if (inMediaMode() && !rvMediaFragment.onBackPressed()) {
-            goBackToAlbums();
         }
+//        else if (inTimelineMode() && !timelineFragment.onBackPressed()) {
+//            goBackToAlbums();
+//        } else if (inMediaMode() && !rvMediaFragment.onBackPressed()) {
+//            goBackToAlbums();
+//        }
     }
 
     @Override
     public void onAlbumClick(Album album) {
-        displayMedia(album);
+        Toast.makeText(this, album.getName(), Toast.LENGTH_SHORT).show();
     }
 
     public void onItemSelected(@NavigationItem int navigationItemSelected) {
@@ -560,21 +503,21 @@ public class MainActivity extends SharedMediaActivity implements
                 break;
 
             case NAVIGATION_ITEM_ALL_MEDIA:
-                displayMedia(Album.getAllMediaAlbum());
+                //displayMedia(Album.getAllMediaAlbum());
                 break;
 
             case NAVIGATION_ITEM_TIMELINE:
-                displayTimeline(Album.getAllMediaAlbum());
-                selectNavigationItem(navigationItemSelected);
-                break;
+//                displayTimeline(Album.getAllMediaAlbum());
+//                selectNavigationItem(navigationItemSelected);
+                    break;
 
             case NAVIGATION_ITEM_HIDDEN_FOLDERS:
-                if (Security.isPasswordOnHidden()) {
-                    askPassword();
-                } else {
-                    selectNavigationItem(navigationItemSelected);
-                    displayAlbums(true);
-                }
+//                if (Security.isPasswordOnHidden()) {
+//                    askPassword();
+//                } else {
+//                    selectNavigationItem(navigationItemSelected);
+//                    displayAlbums(true);
+//                }
                 break;
 
             case NAVIGATION_ITEM_WALLPAPERS:
@@ -582,7 +525,7 @@ public class MainActivity extends SharedMediaActivity implements
                 break;
 
             case NAVIGATION_ITEM_DONATE:
-                DonateActivity.startActivity(this);
+                Toast.makeText(this, "Donate???", Toast.LENGTH_SHORT).show();
                 break;
 
             case NavigationDrawer.NAVIGATION_ITEM_AFFIX:

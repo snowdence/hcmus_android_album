@@ -109,7 +109,7 @@
         -->
 
         <provider
-            android:name="com.wifosoft.wumbum.util.LegacyCompatFileProvider"
+            android:name="com.wifosoft.wumbum.providers.LegacyCompatFileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">

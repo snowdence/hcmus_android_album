@@ -1,6 +1,7 @@
 package com.wifosoft.wumbum.sort;
 
 
+import com.wifosoft.wumbum.model.AlbumSettings;
 import com.wifosoft.wumbum.model.Media;
 
 import java.util.Comparator;

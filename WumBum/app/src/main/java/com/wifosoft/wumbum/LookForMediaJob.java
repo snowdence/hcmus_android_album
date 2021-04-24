@@ -10,9 +10,10 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.wifosoft.wumbum.data.HandlingAlbums;
-import com.wifosoft.wumbum.data.MediaHelper;
-import com.wifosoft.wumbum.data.filter.ImageFileFilter;
+
+import com.wifosoft.wumbum.filter.ImageFileFilter;
+import com.wifosoft.wumbum.helper.MediaHelper;
+import com.wifosoft.wumbum.helper.QueryAlbums;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class LookForMediaJob extends JobService {
             @Override
             public void run() {
                 try {
-                    ArrayList<String> whiteList = HandlingAlbums.getInstance(getApplicationContext()).getFolders(HandlingAlbums.INCLUDED);
+                    ArrayList<String> whiteList = QueryAlbums.getInstance(getApplicationContext()).getFolders(QueryAlbums.INCLUDED);
                     for (String s : whiteList) {
                         scanFolder(s);
                         Log.wtf(TAG, "Scanned: " + s);

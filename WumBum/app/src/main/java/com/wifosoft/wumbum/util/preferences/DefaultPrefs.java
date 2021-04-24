@@ -1,5 +1,6 @@
 package com.wifosoft.wumbum.util.preferences;
 
+import com.wifosoft.wumbum.CardViewStyle;
 import com.wifosoft.wumbum.sort.SortingMode;
 import com.wifosoft.wumbum.sort.SortingOrder;
 
@@ -19,6 +20,7 @@ public class DefaultPrefs {
 
     public static final int ALBUM_SORTING_MODE = SortingMode.DATE.getValue();
     public static final int ALBUM_SORTING_ORDER = SortingOrder.DESCENDING.getValue();
+    public static final int CARD_STYLE = CardViewStyle.MATERIAL.getValue();
 
     public static final boolean SHOW_VIDEOS = true;
     public static final boolean SHOW_MEDIA_COUNT = true;

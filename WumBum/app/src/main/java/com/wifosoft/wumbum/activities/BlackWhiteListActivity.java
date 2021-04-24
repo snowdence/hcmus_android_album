@@ -22,8 +22,9 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.wifosoft.wumbum.R;
 import com.wifosoft.wumbum.SelectAlbumBuilder;
 import com.wifosoft.wumbum.activities.base.SharedMediaActivity;
-import com.wifosoft.wumbum.data.HandlingAlbums;
-import com.wifosoft.wumbum.data.filter.ImageFileFilter;
+
+import com.wifosoft.wumbum.filter.ImageFileFilter;
+import com.wifosoft.wumbum.helper.QueryAlbums;
 import com.wifosoft.wumbum.util.AnimationUtils;
 import com.wifosoft.wumbum.util.StringUtils;
 import com.wifosoft.wumbum.util.preferences.Prefs;
@@ -34,7 +35,8 @@ import java.util.ArrayList;
 
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
 
-import static com.wifosoft.wumbum.data.MediaHelper.scanFile;
+import static com.wifosoft.wumbum.helper.MediaHelper.scanFile;
+
 
 /**
  * Created by dnld on 01/04/16.
@@ -55,12 +57,12 @@ public class BlackWhiteListActivity extends SharedMediaActivity {
         toolbar = findViewById(R.id.toolbar);
         mRecyclerView = findViewById(R.id.excluded_albums);
         initUi();
-        loadFolders(getIntent().getIntExtra(EXTRA_TYPE, HandlingAlbums.EXCLUDED));
+        loadFolders(getIntent().getIntExtra(EXTRA_TYPE, QueryAlbums.EXCLUDED));
     }
 
     private void loadFolders(int type) {
-        typeExcluded = type == HandlingAlbums.EXCLUDED;
-        folders = HandlingAlbums.getInstance(getApplicationContext()).getFolders(type);
+        typeExcluded = type == QueryAlbums.EXCLUDED;
+        folders = QueryAlbums.getInstance(getApplicationContext()).getFolders(type);
         checkNothing();
         if (isExcludedMode()) setTitle(getString(R.string.excluded_items));
         else setTitle(getString(R.string.white_list));
@@ -96,7 +98,7 @@ public class BlackWhiteListActivity extends SharedMediaActivity {
         String[] list = dir.list(new ImageFileFilter(true));
         if (list != null && list.length > 0) {
             scanFile(getApplicationContext(), list);
-            HandlingAlbums.getInstance(getApplicationContext()).addFolderToWhiteList(dir.getPath());
+            QueryAlbums.getInstance(getApplicationContext()).addFolderToWhiteList(dir.getPath());
             folders.add(0, dir.getPath());
             adapter.notifyItemInserted(0);
             checkNothing();
@@ -140,7 +142,7 @@ public class BlackWhiteListActivity extends SharedMediaActivity {
                         .onFolderSelected(path -> addFolder(new File(path))).show();
                 return true;
             case R.id.action_toggle:
-                loadFolders(isExcludedMode() ? HandlingAlbums.INCLUDED : HandlingAlbums.EXCLUDED);
+                loadFolders(isExcludedMode() ? QueryAlbums.INCLUDED : QueryAlbums.EXCLUDED);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -185,7 +187,7 @@ public class BlackWhiteListActivity extends SharedMediaActivity {
         private View.OnClickListener listener = v -> {
             String path = (String) v.getTag();
             int i = folders.indexOf(path);
-            HandlingAlbums.getInstance(getApplicationContext()).clearStatusFolder(path);
+            QueryAlbums.getInstance(getApplicationContext()).clearStatusFolder(path);
             folders.remove(i);
             notifyItemRemoved(i);
             checkNothing();

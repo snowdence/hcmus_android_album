@@ -36,9 +36,9 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.orhanobut.hawk.Hawk;
 
-import com.wifosoft.wumbum.data.StorageHelper;
-import com.wifosoft.wumbum.data.filter.FoldersFileFilter;
-import com.wifosoft.wumbum.util.AlertDialogsHelper;
+import com.wifosoft.wumbum.filter.FoldersFileFilter;
+import com.wifosoft.wumbum.helper.AlertDialogsHelper;
+import com.wifosoft.wumbum.helper.StorageHelper;
 import com.wifosoft.wumbum.util.Measure;
 import com.wifosoft.wumbum.views.GridSpacingItemDecoration;
 import org.horaapps.liz.ThemeHelper;

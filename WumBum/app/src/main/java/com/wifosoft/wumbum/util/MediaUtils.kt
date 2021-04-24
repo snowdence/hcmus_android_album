@@ -8,9 +8,11 @@ import android.net.Uri
 import android.support.v4.app.FragmentManager
 import android.widget.Toast
 import com.wifosoft.wumbum.R
-import com.wifosoft.wumbum.data.Media
-import com.wifosoft.wumbum.data.MediaHelper
-import com.wifosoft.wumbum.progress.ProgressBottomSheet
+import com.wifosoft.wumbum.exception.progress.ProgressBottomSheet
+import com.wifosoft.wumbum.helper.MediaHelper
+import com.wifosoft.wumbum.model.Media
+import com.wifosoft.wumbum.providers.LegacyCompatFileProvider
+
 import java.util.*
 
 /**
