@@ -28,6 +28,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.orhanobut.hawk.Hawk;
 
 import com.wifosoft.wumbum.R;
+import com.wifosoft.wumbum.adapters.AlbumsAdapter;
 import com.wifosoft.wumbum.fragments.BaseMediaGridFragment;
 import com.wifosoft.wumbum.helper.AlbumsHelper;
 import com.wifosoft.wumbum.helper.AlertDialogsHelper;
