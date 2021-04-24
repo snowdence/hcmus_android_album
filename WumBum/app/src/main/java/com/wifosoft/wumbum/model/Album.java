@@ -93,7 +93,7 @@ public class Album implements ICursorHandler, Parcelable {
         return album;
     }
 
-    static Album withPath(String path) {
+    public static Album withPath(String path) {
         Album emptyAlbum = getEmptyAlbum();
         emptyAlbum.path = path;
         return emptyAlbum;

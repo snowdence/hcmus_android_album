@@ -25,7 +25,7 @@ public class AlbumSettings implements Serializable, Parcelable {
         return new AlbumSettings(null, SortingMode.DATE.getValue(), 1, 0);
     }
 
-    AlbumSettings(String cover, int sortingMode, int sortingOrder, int pinned) {
+    public AlbumSettings(String cover, int sortingMode, int sortingOrder, int pinned) {
         this.coverPath = cover;
         this.sortingMode = sortingMode;
         this.sortingOrder = sortingOrder;

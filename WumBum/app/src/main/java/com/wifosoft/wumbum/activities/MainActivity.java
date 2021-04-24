@@ -35,13 +35,13 @@ import com.orhanobut.hawk.Hawk;
 import com.wifosoft.wumbum.BuildConfig;
 import com.wifosoft.wumbum.R;
 import com.wifosoft.wumbum.activities.base.SharedMediaActivity;
-import com.wifosoft.wumbum.data.Album;
-import com.wifosoft.wumbum.data.Media;
+
 import com.wifosoft.wumbum.fragments.AlbumsFragment;
 import com.wifosoft.wumbum.fragments.EditModeListener;
 import com.wifosoft.wumbum.fragments.NothingToShowListener;
 import com.wifosoft.wumbum.fragments.RvMediaFragment;
 import com.wifosoft.wumbum.interfaces.MediaClickListener;
+import com.wifosoft.wumbum.model.Album;
 import com.wifosoft.wumbum.timeline.TimelineFragment;
 import com.wifosoft.wumbum.util.AlertDialogsHelper;
 import com.wifosoft.wumbum.util.LegacyCompatFileProvider;
@@ -592,7 +592,7 @@ public class MainActivity extends SharedMediaActivity implements
                 Toast.makeText(this, "Affix" , Toast.LENGTH_SHORT).show();
                     break;
             case NAVIGATION_ITEM_SETTINGS:
-                SettingsActivity.startActivity(this);
+                //SettingsActivity.startActivity(this);
                 break;
 
             case NAVIGATION_ITEM_ABOUT:
