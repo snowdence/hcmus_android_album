@@ -23,6 +23,30 @@
                 android:id="@+id/toolbar"
                 layout="@layout/toolbar" />
 
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabFragMode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#673AB7"
+                app:tabSelectedTextColor="@color/accent_orange">
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="All Albums" />
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="All Images" />
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time Line" />
+            </android.support.design.widget.TabLayout>
+
             <FrameLayout
                 android:id="@+id/content"
                 android:layout_width="match_parent"

@@ -9,7 +9,7 @@ public class DefaultPrefs {
     }
     // Prevent class instantiation
 
-    public static final int FOLDER_COLUMNS_PORTRAIT = 2;
+    public static final int FOLDER_COLUMNS_PORTRAIT = 3;
     public static final int FOLDER_COLUMNS_LANDSCAPE = 3;
 
     public static final int MEDIA_COLUMNS_PORTRAIT = 3;

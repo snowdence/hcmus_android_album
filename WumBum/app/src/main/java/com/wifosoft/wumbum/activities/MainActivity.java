@@ -17,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -47,6 +48,7 @@ import com.wifosoft.wumbum.model.Media;
 
 import com.wifosoft.wumbum.util.StringUtils;
 import com.wifosoft.wumbum.util.preferences.Prefs;
+import com.wifosoft.wumbum.util.preferences.SharedPrefs;
 import com.wifosoft.wumbum.views.navigation_drawer.NavigationDrawer;
 
 import java.util.ArrayList;
@@ -72,7 +74,7 @@ import static com.wifosoft.wumbum.views.navigation_drawer.NavigationDrawer.Navig
  */
 public class MainActivity extends SharedMediaActivity implements
         IMediaClickListener, AlbumsFragment.AlbumClickListener,
-        INothingToShowListener, ItemListener , IEditModeListener {
+        INothingToShowListener, ItemListener, IEditModeListener {
 
     public static final String ARGS_PICK_MODE = "pick_mode";
 
@@ -103,11 +105,19 @@ public class MainActivity extends SharedMediaActivity implements
         int MODE_TIMELINE = 1003;
     }
 
-    @BindView(R.id.fab_camera) FloatingActionButton fab;
-    @BindView(R.id.drawer_layout) DrawerLayout navigationDrawer;
-    @BindView(R.id.home_navigation_drawer) NavigationDrawer navigationDrawerView;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.coordinator_main_layout) CoordinatorLayout mainLayout;
+    @BindView(R.id.fab_camera)
+    FloatingActionButton fab;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout navigationDrawer;
+    @BindView(R.id.home_navigation_drawer)
+    NavigationDrawer navigationDrawerView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.coordinator_main_layout)
+    CoordinatorLayout mainLayout;
+
+    @BindView(R.id.tabFragMode)
+    TabLayout tabFragMode;
 
     private AlbumsFragment albumsFragment;
     //private RvMediaFragment rvMediaFragment;
@@ -115,7 +125,8 @@ public class MainActivity extends SharedMediaActivity implements
     private boolean pickMode = false;
     private Unbinder unbinder;
 
-    @FragmentMode private int fragmentMode;
+    @FragmentMode
+    private int fragmentMode;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,6 +137,33 @@ public class MainActivity extends SharedMediaActivity implements
         initUi();
         pickMode = getIntent().getBooleanExtra(ARGS_PICK_MODE, false);
 
+        tabFragMode.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int tab_pos = tab.getPosition();
+                switch (tab_pos) {
+                    case 0:
+                        displayAlbums(false);
+                        break;
+                    case 1:
+                        Toast.makeText(MainActivity.this, "All Image", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(MainActivity.this, "Timeline", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         if (savedInstanceState == null) {
             fragmentMode = FragmentMode.MODE_ALBUMS;
             initAlbumsFragment();
@@ -188,9 +226,6 @@ public class MainActivity extends SharedMediaActivity implements
     }
 
 
-
-
-
     @Override
     protected void onDestroy() {
         unbinder.unbind();
@@ -199,7 +234,7 @@ public class MainActivity extends SharedMediaActivity implements
 
     @Override
     public void onMediaClick(Album album, ArrayList<Media> media, int position) {
-    //TODO media click
+        //TODO media click
         Toast.makeText(this, "onMediaClick()", Toast.LENGTH_SHORT).show();
         //
 //        if (!pickMode) {
@@ -240,7 +275,7 @@ public class MainActivity extends SharedMediaActivity implements
         super.onConfigurationChanged(newConfig);
         fab.setVisibility(View.VISIBLE);
         fab.animate().translationY(fab.getHeight() * 2).start();
-        
+
     }
 
     public void goBackToAlbums() {
@@ -297,6 +332,7 @@ public class MainActivity extends SharedMediaActivity implements
     public void updateUiElements() {
         super.updateUiElements();
         //TODO: MUST BE FIXED
+        tabFragMode.setBackgroundColor(getPrimaryColor());
         toolbar.setPopupTheme(getPopupToolbarStyle());
         toolbar.setBackgroundColor(getPrimaryColor());
 
@@ -341,14 +377,15 @@ public class MainActivity extends SharedMediaActivity implements
     }
 
 
-
     @Override
     protected void onStart() {
         super.onStart();
         navigationDrawerView.refresh();
     }
 
-    /**region MENU */
+    /**
+     * region MENU
+     */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -357,7 +394,7 @@ public class MainActivity extends SharedMediaActivity implements
         switch (item.getItemId()) {
 
             case R.id.settings:
-                Toast.makeText(this, "Setting screen" ,Toast.LENGTH_SHORT );
+                Toast.makeText(this, "Setting screen", Toast.LENGTH_SHORT);
                 //SettingsActivity.startActivity(this);
                 return true;
 
@@ -496,7 +533,7 @@ public class MainActivity extends SharedMediaActivity implements
             case NAVIGATION_ITEM_TIMELINE:
 //                displayTimeline(Album.getAllMediaAlbum());
 //                selectNavigationItem(navigationItemSelected);
-                    break;
+                break;
 
             case NAVIGATION_ITEM_HIDDEN_FOLDERS:
 //                if (Security.isPasswordOnHidden()) {
@@ -513,14 +550,15 @@ public class MainActivity extends SharedMediaActivity implements
 
             case NAVIGATION_ITEM_DONATE:
                 Toast.makeText(this, "Donate???", Toast.LENGTH_SHORT).show();
+                Prefs.clearAllData();
                 break;
 
             case NavigationDrawer.NAVIGATION_ITEM_AFFIX:
-               // Intent i = new Intent(getBaseContext(), AffixActivity.class);
+                // Intent i = new Intent(getBaseContext(), AffixActivity.class);
                 //startActivity(i);
                 //   AffixActivity.startActivity(this);
-                Toast.makeText(this, "Affix" , Toast.LENGTH_SHORT).show();
-                    break;
+                Toast.makeText(this, "Affix", Toast.LENGTH_SHORT).show();
+                break;
             case NAVIGATION_ITEM_SETTINGS:
                 //SettingsActivity.startActivity(this);
                 break;

@@ -36,4 +36,8 @@ public class SharedPrefs {
     void put(@NonNull String key, boolean value) {
         getEditor().putBoolean(key, value).commit();
     }
+
+    public void clearAll(){
+        getEditor().clear().commit();
+    }
 }

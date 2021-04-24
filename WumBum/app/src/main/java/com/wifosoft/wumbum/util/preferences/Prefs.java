@@ -39,6 +39,7 @@ public class Prefs {
         return getPrefs().get(Keys.FOLDER_COLUMNS_PORTRAIT, DefaultPrefs.FOLDER_COLUMNS_PORTRAIT);
     }
 
+
     /**
      * Get number of folder columns to display in Landscape orientation
      */
@@ -239,5 +240,9 @@ public class Prefs {
             throw new RuntimeException("Prefs has not been instantiated. Call init() with context");
         }
         return sharedPrefs;
+    }
+    public static boolean clearAllData(){
+        getPrefs().clearAll();
+        return true;
     }
 }
