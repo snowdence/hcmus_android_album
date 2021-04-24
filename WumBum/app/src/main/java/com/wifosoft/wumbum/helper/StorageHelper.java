@@ -34,7 +34,8 @@ import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.HashSet;
 
-import static com.wifosoft.wumbum.data.MediaHelper.scanFile;
+import static com.wifosoft.wumbum.helper.MediaHelper.scanFile;
+
 
 /**
  * Created by dnld on 26/05/16.
