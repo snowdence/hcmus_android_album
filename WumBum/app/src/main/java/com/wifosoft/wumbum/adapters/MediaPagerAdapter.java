@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 
 import com.wifosoft.wumbum.fragments.ImageFragment;
+import com.wifosoft.wumbum.fragments.VideoFragment;
 import com.wifosoft.wumbum.model.Media;
 
 import java.util.ArrayList;
@@ -32,6 +33,9 @@ public class MediaPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int pos) {
         Media media = this.media.get(pos);
+        if(media.isVideo()){
+            return VideoFragment.newInstance(media);
+        }
         return ImageFragment.newInstance(media);
     }
 

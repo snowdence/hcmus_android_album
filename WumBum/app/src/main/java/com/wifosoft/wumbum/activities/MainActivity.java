@@ -554,6 +554,7 @@ public class MainActivity extends SharedMediaActivity implements
 
     @Override
     public void onAlbumClick(Album album) {
+        displayMedia(album);
         Toast.makeText(this, album.getName(), Toast.LENGTH_SHORT).show();
     }
 
