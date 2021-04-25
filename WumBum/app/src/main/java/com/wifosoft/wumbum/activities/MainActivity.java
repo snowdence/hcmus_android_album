@@ -147,20 +147,20 @@ public class MainActivity extends SharedMediaActivity implements
                 int tab_pos = tab.getPosition();
                 switch (tab_pos) {
                     case 0:
-                        if (inMediaMode()) {
-                            goBackToAlbums();
-                        }
+                        unreferenceFragments();
+                        albumsFragment = (AlbumsFragment) getSupportFragmentManager().findFragmentByTag(AlbumsFragment.TAG);
+
                         displayAlbums(false);
                         break;
                     case 1:
+                        unreferenceFragments();
                         Toast.makeText(MainActivity.this, "All Image", Toast.LENGTH_SHORT).show();
                         displayMedia(Album.getAllMediaAlbum());
                         break;
                     case 2:
+                        unreferenceFragments();
                         Toast.makeText(MainActivity.this, "Timeline", Toast.LENGTH_SHORT).show();
-                        if(inTimelineMode()){
-                            goBackToAlbums();
-                        }
+
                         displayTimeline(Album.getAllMediaAlbum());
                         break;
                 }
@@ -246,6 +246,7 @@ public class MainActivity extends SharedMediaActivity implements
         setupUiForTimeline();
     }
     private void displayAlbums(boolean hidden) {
+
         fragmentMode = FragmentMode.MODE_ALBUMS;
         unlockNavigationDrawer();
         if (albumsFragment == null) initAlbumsFragment();
@@ -311,6 +312,7 @@ public class MainActivity extends SharedMediaActivity implements
         fragmentMode = FragmentMode.MODE_ALBUMS;
         unlockNavigationDrawer();
         getSupportFragmentManager().popBackStack();
+
         albumsFragment = (AlbumsFragment) getSupportFragmentManager().findFragmentByTag(AlbumsFragment.TAG);
         selectNavigationItem(NAVIGATION_ITEM_ALL_ALBUMS);
         showDefaultToolbar();
