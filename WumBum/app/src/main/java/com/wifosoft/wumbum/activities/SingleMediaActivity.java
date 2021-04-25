@@ -43,6 +43,9 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.orhanobut.hawk.Hawk;
 import com.wifosoft.wumbum.adapters.MediaPagerAdapter;
 import com.wifosoft.wumbum.animations.DepthPageTransform;
+import com.wifosoft.wumbum.animations.ZoomFadePageTransformer;
+import com.wifosoft.wumbum.animations.ZoomPageTransformer;
+import com.wifosoft.wumbum.animations.ZoomStackPageTransformer;
 import com.wifosoft.wumbum.filter.MediaFilter;
 import com.wifosoft.wumbum.fragments.ImageFragment;
 import com.wifosoft.wumbum.helper.AlertDialogsHelper;
@@ -267,7 +270,7 @@ public class SingleMediaActivity extends SharedMediaActivity implements BaseMedi
 
         useImageMenu = isCurrentMediaImage();
 
-        mViewPager.setPageTransformer(true, AnimationUtils.getPageTransformer(new DepthPageTransform()));
+        mViewPager.setPageTransformer(true, AnimationUtils.getPageTransformer(new ZoomStackPageTransformer()));
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
