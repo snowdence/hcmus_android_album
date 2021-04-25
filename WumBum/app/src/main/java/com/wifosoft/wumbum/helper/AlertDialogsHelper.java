@@ -1,16 +1,13 @@
 package com.wifosoft.wumbum.helper;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.net.Uri;
-import android.support.annotation.StringRes;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
-import android.text.method.LinkMovementMethod;
+
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
+
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +17,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.drew.lang.GeoLocation;
-import com.orhanobut.hawk.Hawk;
 
 import com.wifosoft.wumbum.R;
 
@@ -42,9 +35,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.util.Locale;
-
-import in.uncod.android.bypass.Bypass;
 
 
 /**

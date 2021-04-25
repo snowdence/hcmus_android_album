@@ -1,6 +1,6 @@
 package com.wifosoft.wumbum.view_holders;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

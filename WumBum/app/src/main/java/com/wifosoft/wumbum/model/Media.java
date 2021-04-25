@@ -7,13 +7,12 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.media.ExifInterface;
+import androidx.exifinterface.media.ExifInterface;
 
 import com.bumptech.glide.signature.ObjectKey;
 import com.drew.lang.GeoLocation;
 import com.drew.lang.annotations.NotNull;
 
-import com.google.android.exoplayer2.Timeline;
 import com.wifosoft.wumbum.interfaces.ICursorHandler;
 import com.wifosoft.wumbum.util.ArrayUtils;
 import com.wifosoft.wumbum.util.MimeTypeUtils;

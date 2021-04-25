@@ -1,6 +1,6 @@
 package com.wifosoft.wumbum.interfaces;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 
 public interface IEditModeListener {

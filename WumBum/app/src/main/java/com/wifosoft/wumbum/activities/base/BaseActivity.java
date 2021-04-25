@@ -1,6 +1,6 @@
 package com.wifosoft.wumbum.activities.base;
 
-import android.support.annotation.CallSuper;
+import androidx.annotation.CallSuper;
 
 import org.horaapps.liz.ThemedActivity;
 

@@ -1,7 +1,7 @@
 package com.wifosoft.wumbum.util.preferences;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.wifosoft.wumbum.CardViewStyle;
 import com.wifosoft.wumbum.sort.SortingMode;

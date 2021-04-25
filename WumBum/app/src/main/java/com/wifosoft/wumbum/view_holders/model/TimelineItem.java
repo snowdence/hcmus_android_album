@@ -1,7 +1,7 @@
 package com.wifosoft.wumbum.view_holders.model;
 
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 public interface TimelineItem {
 

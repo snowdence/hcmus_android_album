@@ -3,8 +3,8 @@ package com.wifosoft.wumbum.fragments
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.support.annotation.IdRes
-import android.support.v7.widget.GridLayoutManager
+import androidx.annotation.IdRes
+import androidx.recyclerview.widget.GridLayoutManager
 import android.view.*
 import android.widget.Toast
 import io.reactivex.android.schedulers.AndroidSchedulers

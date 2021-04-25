@@ -1,7 +1,7 @@
 package com.wifosoft.wumbum.util;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.wifosoft.wumbum.BuildConfig;
 
