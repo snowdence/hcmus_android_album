@@ -53,7 +53,7 @@
                 <data android:mimeType="video/*" />
             </intent-filter>
             <intent-filter>
-                <action android:name="com.horaapps.leafpic.OPEN_ALBUM" />
+                <action android:name="com.wifosoft.wumbum.OPEN_ALBUM" />
             </intent-filter>
         </activity>
         <activity
@@ -63,6 +63,15 @@
             <intent-filter>
                 <action android:name="android.intent.action.albumsAct" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.wifosoft.wumbum.activities.SingleMediaActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.PICK" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
