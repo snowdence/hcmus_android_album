@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
@@ -39,6 +40,7 @@ import com.wifosoft.wumbum.activities.base.SharedMediaActivity;
 //
 //import com.wifosoft.wumbum.fragments.AlbumsFragment;
 //import com.wifosoft.wumbum.fragments.RvMediaFragment;
+import com.wifosoft.wumbum.fragments.AllMediaFragment;
 import com.wifosoft.wumbum.helper.AlertDialogsHelper;
 import com.wifosoft.wumbum.interfaces.IEditModeListener;
 import com.wifosoft.wumbum.interfaces.IMediaClickListener;
@@ -120,7 +122,7 @@ public class MainActivity extends SharedMediaActivity implements
     TabLayout tabFragMode;
 
     private AlbumsFragment albumsFragment;
-    //private RvMediaFragment rvMediaFragment;
+    private AllMediaFragment allMediaFragment;
 
     private boolean pickMode = false;
     private Unbinder unbinder;
@@ -143,10 +145,14 @@ public class MainActivity extends SharedMediaActivity implements
                 int tab_pos = tab.getPosition();
                 switch (tab_pos) {
                     case 0:
+                        if (inMediaMode()) {
+                            goBackToAlbums();
+                        }
                         displayAlbums(false);
                         break;
                     case 1:
                         Toast.makeText(MainActivity.this, "All Image", Toast.LENGTH_SHORT).show();
+                        displayMedia(Album.getAllMediaAlbum());
                         break;
                     case 2:
                         Toast.makeText(MainActivity.this, "Timeline", Toast.LENGTH_SHORT).show();
@@ -182,6 +188,8 @@ public class MainActivity extends SharedMediaActivity implements
 //                rvMediaFragment = (RvMediaFragment) getSupportFragmentManager().findFragmentByTag(RvMediaFragment.TAG);
 //                rvMediaFragment.setListener(this);
 //
+                allMediaFragment = (AllMediaFragment) getSupportFragmentManager().findFragmentByTag(AllMediaFragment.TAG);
+                allMediaFragment.setListener(this);
                 break;
 
             case FragmentMode.MODE_ALBUMS:
@@ -293,6 +301,7 @@ public class MainActivity extends SharedMediaActivity implements
         // Refactor the logic to avoid these member variables.
         // Allow the GC to reclaim the fragments for now
         albumsFragment = null;
+        allMediaFragment = null;
     }
 
     private void initUi() {
@@ -503,7 +512,8 @@ public class MainActivity extends SharedMediaActivity implements
                 if (navigationDrawer.isDrawerOpen(GravityCompat.START)) closeDrawer();
                 else finish();
             }
-
+        } else if (inMediaMode() && !allMediaFragment.onBackPressed()) {
+            goBackToAlbums();
         }
 //        else if (inTimelineMode() && !timelineFragment.onBackPressed()) {
 //            goBackToAlbums();
@@ -517,6 +527,17 @@ public class MainActivity extends SharedMediaActivity implements
         Toast.makeText(this, album.getName(), Toast.LENGTH_SHORT).show();
     }
 
+    public void displayMedia(Album album) {
+        unreferenceFragments();
+
+        allMediaFragment = AllMediaFragment.make(album);
+        fragmentMode = FragmentMode.MODE_MEDIA;
+        lockNavigationDrawer();
+        allMediaFragment.setListener(this);
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, allMediaFragment, AllMediaFragment.TAG).addToBackStack(null).commit();
+
+    }
+
     public void onItemSelected(@NavigationItem int navigationItemSelected) {
         closeDrawer();
         switch (navigationItemSelected) {
@@ -527,7 +548,9 @@ public class MainActivity extends SharedMediaActivity implements
                 break;
 
             case NAVIGATION_ITEM_ALL_MEDIA:
-                //displayMedia(Album.getAllMediaAlbum());
+                displayMedia(Album.getAllMediaAlbum());
+                selectNavigationItem(navigationItemSelected);
+
                 break;
 
             case NAVIGATION_ITEM_TIMELINE:
