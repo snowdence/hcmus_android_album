@@ -13,10 +13,12 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.drew.lang.GeoLocation;
 import com.drew.lang.annotations.NotNull;
 
+import com.google.android.exoplayer2.Timeline;
 import com.wifosoft.wumbum.interfaces.ICursorHandler;
 import com.wifosoft.wumbum.util.ArrayUtils;
 import com.wifosoft.wumbum.util.MimeTypeUtils;
 import com.wifosoft.wumbum.util.StringUtils;
+import com.wifosoft.wumbum.view_holders.model.TimelineItem;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +27,7 @@ import java.io.IOException;
 /** Ideally, we should have separate data classes for images, videos & gifs
  *  Base class can be Media, and others should extend
  *  Try to separate out Database logic and projections from this class */
-public class Media implements ICursorHandler, Parcelable {
+public class Media implements ICursorHandler, Parcelable, TimelineItem {
 
     private static final String[] sProjection = new String[] {
             MediaStore.Images.Media.DATA,
@@ -294,4 +296,8 @@ public class Media implements ICursorHandler, Parcelable {
         }
     };
 
+    @Override
+    public int getTimelineType() {
+        return TYPE_MEDIA;
+    }
 }

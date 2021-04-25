@@ -41,6 +41,7 @@ import com.wifosoft.wumbum.activities.base.SharedMediaActivity;
 //import com.wifosoft.wumbum.fragments.AlbumsFragment;
 //import com.wifosoft.wumbum.fragments.RvMediaFragment;
 import com.wifosoft.wumbum.fragments.AllMediaFragment;
+import com.wifosoft.wumbum.fragments.TimelineFragment;
 import com.wifosoft.wumbum.helper.AlertDialogsHelper;
 import com.wifosoft.wumbum.interfaces.IEditModeListener;
 import com.wifosoft.wumbum.interfaces.IMediaClickListener;
@@ -123,6 +124,7 @@ public class MainActivity extends SharedMediaActivity implements
 
     private AlbumsFragment albumsFragment;
     private AllMediaFragment allMediaFragment;
+    private TimelineFragment timelineFragment;
 
     private boolean pickMode = false;
     private Unbinder unbinder;
@@ -156,6 +158,10 @@ public class MainActivity extends SharedMediaActivity implements
                         break;
                     case 2:
                         Toast.makeText(MainActivity.this, "Timeline", Toast.LENGTH_SHORT).show();
+                        if(inTimelineMode()){
+                            goBackToAlbums();
+                        }
+                        displayTimeline(Album.getAllMediaAlbum());
                         break;
                 }
             }
@@ -225,6 +231,20 @@ public class MainActivity extends SharedMediaActivity implements
         fragmentMode = savedInstance.getInt(SAVE_FRAGMENT_MODE, FragmentMode.MODE_ALBUMS);
     }
 
+    public void displayTimeline(Album album) {
+        unreferenceFragments();
+        timelineFragment = TimelineFragment.Companion.newInstance(album);
+
+        fragmentMode = FragmentMode.MODE_TIMELINE;
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content, timelineFragment, TimelineFragment.TAG)
+                .addToBackStack(null)
+                .commit();
+
+        setupUiForTimeline();
+    }
     private void displayAlbums(boolean hidden) {
         fragmentMode = FragmentMode.MODE_ALBUMS;
         unlockNavigationDrawer();
@@ -302,6 +322,7 @@ public class MainActivity extends SharedMediaActivity implements
         // Allow the GC to reclaim the fragments for now
         albumsFragment = null;
         allMediaFragment = null;
+        timelineFragment = null;
     }
 
     private void initUi() {
@@ -512,7 +533,12 @@ public class MainActivity extends SharedMediaActivity implements
                 if (navigationDrawer.isDrawerOpen(GravityCompat.START)) closeDrawer();
                 else finish();
             }
-        } else if (inMediaMode() && !allMediaFragment.onBackPressed()) {
+        }
+        else if (inTimelineMode() && !timelineFragment.onBackPressed()) {
+            goBackToAlbums();
+
+        }
+        else if (inMediaMode() && !allMediaFragment.onBackPressed()) {
             goBackToAlbums();
         }
 //        else if (inTimelineMode() && !timelineFragment.onBackPressed()) {
@@ -554,8 +580,8 @@ public class MainActivity extends SharedMediaActivity implements
                 break;
 
             case NAVIGATION_ITEM_TIMELINE:
-//                displayTimeline(Album.getAllMediaAlbum());
-//                selectNavigationItem(navigationItemSelected);
+                displayTimeline(Album.getAllMediaAlbum());
+                selectNavigationItem(navigationItemSelected);
                 break;
 
             case NAVIGATION_ITEM_HIDDEN_FOLDERS:
