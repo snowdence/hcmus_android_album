@@ -69,7 +69,7 @@ class TimelineFragment : BaseMediaGridFragment(), IActionsListener {
         get() = if (DeviceUtils.isPortrait(resources)) DefaultPrefs.TIMELINE_ITEMS_PORTRAIT
         else DefaultPrefs.TIMELINE_ITEMS_LANDSCAPE
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is IMediaClickListener) timelineListener = context
     }
@@ -115,7 +115,7 @@ class TimelineFragment : BaseMediaGridFragment(), IActionsListener {
         menu.findItem(getMenuForFilterMode(filterMode)).isChecked = true
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         if (menu == null) return
 

@@ -18,7 +18,7 @@ abstract class BaseMediaGridFragment : BaseFragment(), IFragment, IActionsListen
 
     lateinit var editModeListener: IEditModeListener
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is IEditModeListener) editModeListener = context
         else throw RuntimeException("Parent must implement Edit Mode Listener!")
