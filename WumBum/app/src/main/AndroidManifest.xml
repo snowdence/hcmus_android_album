@@ -19,20 +19,22 @@
         android:required="false" />
 
     <application
-        android:name="com.wifosoft.wumbum.App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:theme="@style/Theme.AppCompat">
+        <activity android:name=".CustomEditSingleMedia"></activity>
         <activity
-            android:name="com.wifosoft.wumbum.activities.PlayerActivity"
+            android:name=".activities.PlayerActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/video_player"
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:scheme="http" />
@@ -43,11 +45,50 @@
                 <data android:mimeType="video/*" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name="com.wifosoft.wumbum.activities.SingleMediaActivity"
+            android:name=".activities.EditImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:scheme="content" />
+                <data android:scheme="asset" />
+                <data android:scheme="file" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+
+
+
+            <intent-filter>
+                <action android:name="action_nextgen_edit" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+
+
+        </activity>
+
+        <activity
+            android:name=".activities.SingleMediaActivity"
             android:configChanges="orientation|screenSize|uiMode|screenLayout|navigation"
             android:label="@string/app_name"
-            android:parentActivityName="com.wifosoft.wumbum.activities.MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -75,16 +116,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.wifosoft.wumbum.activities.SplashScreen"
+            android:name=".activities.SplashScreen"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.APP_GALLERY" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
 
@@ -96,6 +137,7 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PICK" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="image/*" />
@@ -106,7 +148,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.wifosoft.wumbum.activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -115,9 +157,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.wifosoft.wumbum.about.AboutActivity"
+            android:name=".about.AboutActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/about"
             android:theme="@style/Theme.AppCompat.NoActionBar">
@@ -128,7 +169,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.wifosoft.wumbum.activities.DonateActivity"
+            android:name=".activities.DonateActivity"
             android:label="@string/donate"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -138,7 +179,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.wifosoft.wumbum.activities.BlackWhiteListActivity"
+            android:name=".activities.BlackWhiteListActivity"
             android:label="@string/chose_folders"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -151,15 +192,13 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <!--
              <meta-data
             android:name="com.wifosoft.wumbum.CustomGlideModule"
             android:value="GlideModule" />
         -->
-
         <provider
-            android:name="com.wifosoft.wumbum.providers.LegacyCompatFileProvider"
+            android:name=".providers.LegacyCompatFileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -169,10 +208,9 @@
         </provider>
 
         <service
-            android:name="com.wifosoft.wumbum.LookForMediaJob"
+            android:name=".LookForMediaJob"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-
     </application>
 
 </manifest>

@@ -41,6 +41,7 @@ import com.bumptech.glide.Glide;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.orhanobut.hawk.Hawk;
+import com.wifosoft.wumbum.CustomEditSingleMedia;
 import com.wifosoft.wumbum.adapters.MediaPagerAdapter;
 import com.wifosoft.wumbum.animations.DepthPageTransform;
 import com.wifosoft.wumbum.animations.ZoomFadePageTransformer;
@@ -538,12 +539,28 @@ public class SingleMediaActivity extends SharedMediaActivity implements BaseMedi
 
             case R.id.action_edit:
                 // TODO: 16/10/17 redo
+                /*
                 Uri mDestinationUri = Uri.fromFile(new File(getCacheDir(), "croppedImage.png"));
                 Uri uri = Uri.fromFile(new File(getCurrentMedia().getPath()));
                 UCrop uCrop = UCrop.of(uri, mDestinationUri);
                 uCrop.withOptions(getUcropOptions());
                 uCrop.start(SingleMediaActivity.this);
+                */
+                //CustomEditSingleMedia customEditSingleMedia  = new CustomEditSingleMedia();
+                Intent editItent = new Intent(Intent.ACTION_EDIT);
+                editItent.setType(getCurrentMedia().getMimeType());
+
+
+
+                Uri uri = LegacyCompatFileProvider.getUri(this, getCurrentMedia().getFile());
+                //editItent.putExtra(Intent.EXTRA_STREAM, uri);
+                editItent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                editItent.setData(uri);
+                startActivity(Intent.createChooser(editItent, "Edit"));
+
+
                 break;
+
 
             case R.id.action_use_as:
                 Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
