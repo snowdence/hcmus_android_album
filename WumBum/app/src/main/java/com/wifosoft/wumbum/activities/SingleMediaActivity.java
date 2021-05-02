@@ -391,6 +391,7 @@ public class SingleMediaActivity extends SharedMediaActivity implements BaseMedi
         } else {
             getMenuInflater().inflate(R.menu.menu_view_pager, menu);
 
+            menu.findItem(R.id.action_favorite).setIcon(getToolbarIcon(CommunityMaterial.Icon.cmd_heart_outline));
             menu.findItem(R.id.action_delete).setIcon(getToolbarIcon(CommunityMaterial.Icon.cmd_delete));
             menu.findItem(R.id.action_share).setIcon(getToolbarIcon(GoogleMaterial.Icon.gmd_share));
             menu.findItem(R.id.action_rotate).setIcon(getToolbarIcon(CommunityMaterial.Icon.cmd_rotate_right));
