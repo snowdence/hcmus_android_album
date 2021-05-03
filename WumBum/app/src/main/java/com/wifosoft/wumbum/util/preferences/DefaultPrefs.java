@@ -4,6 +4,9 @@ import com.wifosoft.wumbum.CardViewStyle;
 import com.wifosoft.wumbum.sort.SortingMode;
 import com.wifosoft.wumbum.sort.SortingOrder;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class DefaultPrefs {
     public DefaultPrefs() {
     }
@@ -33,4 +36,5 @@ public class DefaultPrefs {
 
     public static final boolean TIMELINE_ENABLED = false;
 
+    public static final Set<String> MEDIA_FAVORITES = new HashSet<>();
 }

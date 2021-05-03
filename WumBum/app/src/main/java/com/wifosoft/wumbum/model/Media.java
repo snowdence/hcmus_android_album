@@ -33,7 +33,7 @@ public class Media implements ICursorHandler, Parcelable, TimelineItem {
             MediaStore.Images.Media.DATE_TAKEN,
             MediaStore.Images.Media.MIME_TYPE,
             MediaStore.Images.Media.SIZE,
-            MediaStore.Images.Media.ORIENTATION
+            MediaStore.Images.Media.ORIENTATION,
     };
 
     private static final int CURSOR_POS_DATA = ArrayUtils.getIndex(sProjection, MediaStore.Images.Media.DATA);

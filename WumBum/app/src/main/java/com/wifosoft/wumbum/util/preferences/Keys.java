@@ -26,6 +26,8 @@ public class Keys {
 
     public static final String ANIMATIONS_DISABLED = "disable_animations";
 
+    public static final String MEDIA_FAVORITES = "media_favorites";
+
     // Feature flags
     public static final String TIMELINE_ENABLED = "enable_timeline";
 
