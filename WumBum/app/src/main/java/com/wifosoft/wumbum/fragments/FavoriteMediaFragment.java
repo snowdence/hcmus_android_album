@@ -54,9 +54,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
 
-public class AllMediaFragment extends BaseMediaGridFragment {
+public class FavoriteMediaFragment extends BaseMediaGridFragment {
 
-    public static final String TAG = "AllMediaFragment";
+    public static final String TAG = "FavoriteMediaFragment";
     private static final String BUNDLE_ALBUM = "album";
 
     @BindView(R.id.media) RecyclerView rv;
@@ -79,16 +79,8 @@ public class AllMediaFragment extends BaseMediaGridFragment {
         album = savedInstanceState.getParcelable(BUNDLE_ALBUM);
     }
 
-    public static AllMediaFragment make(Album album) {
-        AllMediaFragment fragment = new AllMediaFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(BUNDLE_ALBUM, album);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    public static AllMediaFragment makeFavorite(Album album) {
-        AllMediaFragment fragment = new AllMediaFragment();
+    public static FavoriteMediaFragment make(Album album) {
+        FavoriteMediaFragment fragment = new FavoriteMediaFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(BUNDLE_ALBUM, album);
         fragment.setArguments(bundle);
@@ -118,7 +110,7 @@ public class AllMediaFragment extends BaseMediaGridFragment {
         QueryHelper.getMedia(getContext(), album)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .filter(media -> MediaFilter.getFilter(album.filterMode()).accept(media))
+                .filter(media -> MediaFilter.getFilter(FilterMode.FAVORITE).accept(media))
                 .subscribe(media -> adapter.add(media),
                         throwable -> {
                             refresh.setRefreshing(false);
@@ -427,7 +419,7 @@ public class AllMediaFragment extends BaseMediaGridFragment {
 
     @Override
     public void onItemSelected(int position) {
-        if (listener != null) listener.onMediaClick(AllMediaFragment.this.album, adapter.getMedia(), position);
+        if (listener != null) listener.onMediaClick(FavoriteMediaFragment.this.album, adapter.getMedia(), position);
     }
 
     @Override

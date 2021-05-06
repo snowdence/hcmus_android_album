@@ -46,8 +46,6 @@ public class FavoriteUtils {
 
     public static boolean isFavorite(Media media) {
         Set<String> favorites = FavoriteUtils.getFavorites();
-        System.out.println(favorites);
-        System.out.println(media.getPath());
         return favorites.contains(media.getPath());
     }
 }

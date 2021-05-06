@@ -38,6 +38,7 @@ public class NavigationDrawer extends ScrollView implements Themed {
     public static final int NAVIGATION_ITEM_AFFIX = 1007;
     public static final int NAVIGATION_ITEM_ABOUT = 1009;
     public static final int NAVIGATION_ITEM_TIMELINE = 1010;
+    public static final int NAVIGATION_ITEM_FAVORITE = 1011;
 
     @Override
     public void refreshTheme(ThemeHelper themeHelper) {
@@ -47,13 +48,14 @@ public class NavigationDrawer extends ScrollView implements Themed {
 
     @IntDef({NAVIGATION_ITEM_ALL_ALBUMS, NAVIGATION_ITEM_ALL_MEDIA, NAVIGATION_ITEM_HIDDEN_FOLDERS,
             NAVIGATION_ITEM_WALLPAPERS, NAVIGATION_ITEM_DONATE, NAVIGATION_ITEM_SETTINGS, NAVIGATION_ITEM_AFFIX,
-            NAVIGATION_ITEM_ABOUT, NAVIGATION_ITEM_TIMELINE})
+            NAVIGATION_ITEM_ABOUT, NAVIGATION_ITEM_TIMELINE, NAVIGATION_ITEM_FAVORITE})
     public @interface NavigationItem {}
 
     @BindView(R.id.navigation_drawer_header) ViewGroup drawerHeader;
 
     @BindView(R.id.navigation_item_albums) NavigationEntry albumsEntry;
     @BindView(R.id.navigation_item_all_media) NavigationEntry mediaEntry;
+    @BindView(R.id.navigation_item_favorite) NavigationEntry favoriteEntry;
     @BindView(R.id.navigation_item_timeline) NavigationEntry timelineEntry;
     @BindView(R.id.navigation_item_hidden_albums) NavigationEntry hiddenFoldersEntry;
     @BindView(R.id.navigation_item_wallpapers) NavigationEntry wallpapersEntry;
@@ -144,7 +146,7 @@ public class NavigationDrawer extends ScrollView implements Themed {
 
         navigationEntries = new NavigationEntry[]
                 {albumsEntry, mediaEntry, hiddenFoldersEntry, wallpapersEntry, donateEntry,
-                        settingsEntry, affixEntry, aboutEntry, timelineEntry};
+                        settingsEntry, affixEntry, aboutEntry, timelineEntry, favoriteEntry};
         setupListeners();
 
         selectedEntry = albumsEntry;
@@ -194,6 +196,8 @@ public class NavigationDrawer extends ScrollView implements Themed {
                 return NAVIGATION_ITEM_AFFIX;
             case R.id.navigation_item_about:
                 return NAVIGATION_ITEM_ABOUT;
+            case R.id.navigation_item_favorite:
+                return NAVIGATION_ITEM_FAVORITE;
         }
         return NAVIGATION_ITEM_ABOUT;
     }
@@ -217,6 +221,8 @@ public class NavigationDrawer extends ScrollView implements Themed {
                 return wallpapersEntry;
             case NAVIGATION_ITEM_TIMELINE:
                 return timelineEntry;
+            case NAVIGATION_ITEM_FAVORITE:
+                return favoriteEntry;
             default:
                 return albumsEntry;
         }

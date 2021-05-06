@@ -15,6 +15,7 @@ import com.drew.lang.annotations.NotNull;
 
 import com.wifosoft.wumbum.interfaces.ICursorHandler;
 import com.wifosoft.wumbum.util.ArrayUtils;
+import com.wifosoft.wumbum.util.FavoriteUtils;
 import com.wifosoft.wumbum.util.MimeTypeUtils;
 import com.wifosoft.wumbum.util.StringUtils;
 import com.wifosoft.wumbum.view_holders.model.TimelineItem;
@@ -129,6 +130,10 @@ public class Media implements ICursorHandler, Parcelable, TimelineItem {
 
     public boolean isImage() {
         return mimeType.startsWith("image");
+    }
+
+    public boolean isFavorite() {
+        return FavoriteUtils.isFavorite(this);
     }
 
     public boolean isVideo() {

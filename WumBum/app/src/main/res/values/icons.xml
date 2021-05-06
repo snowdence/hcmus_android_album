@@ -3,6 +3,7 @@
 
     <!-- Navigation Drawer -->
     <string name="icon_albums">gmd-folder</string>
+    <string name="icon_favorite">gmd_favorite</string>
     <string name="icon_all_media">gmd_photo_library</string>
     <string name="icon_timeline">gmd-timeline</string>
     <string name="icon_hidden_folders">faw-low-vision</string>

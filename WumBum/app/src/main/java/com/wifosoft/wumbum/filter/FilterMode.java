@@ -5,5 +5,6 @@ public enum FilterMode {
     IMAGES,
     GIF,
     VIDEO,
-    NO_VIDEO
+    NO_VIDEO,
+    FAVORITE,
 }
