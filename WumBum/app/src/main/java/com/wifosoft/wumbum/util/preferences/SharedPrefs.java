@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -36,11 +37,12 @@ public class SharedPrefs {
     }
 
     Set<String> get(@NonNull String key, Set<String> defaultValue) {
-        return sharedPrefs.getStringSet(key, defaultValue);
+        return new HashSet<String>(sharedPrefs.getStringSet(key, defaultValue));
     }
 
     void put(@NonNull String key, Set<String> value) {
         getEditor().putStringSet(key, value).commit();
+        getEditor().apply();
     }
 
     void put(@NonNull String key, boolean value) {
