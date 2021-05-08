@@ -3,6 +3,7 @@ package com.wifosoft.wumbum.activities;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -21,6 +22,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -78,6 +82,7 @@ public class MainActivity extends SharedMediaActivity implements
     public static final String ARGS_PICK_MODE = "pick_mode";
 
     private static final String SAVE_FRAGMENT_MODE = "fragment_mode";
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     public void changedEditMode(boolean editMode, int selected, int total, @Nullable View.OnClickListener listener, @Nullable String title) {
@@ -570,5 +575,12 @@ public class MainActivity extends SharedMediaActivity implements
     private void setupUiForTimeline() {
         lockNavigationDrawer();
         updateToolbar(getString(R.string.timeline_toolbar_title), GoogleMaterial.Icon.gmd_arrow_back, v -> goBackToAlbums());
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

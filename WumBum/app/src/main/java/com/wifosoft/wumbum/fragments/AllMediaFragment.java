@@ -1,7 +1,10 @@
 package com.wifosoft.wumbum.fragments;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,7 +12,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SwitchCompat;
+
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -48,16 +53,25 @@ import com.wifosoft.wumbum.views.GridSpacingItemDecoration;
 import org.horaapps.liz.ThemeHelper;
 import org.horaapps.liz.ThemedActivity;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
 
+import static android.app.Activity.RESULT_OK;
+
 public class AllMediaFragment extends BaseMediaGridFragment {
 
     public static final String TAG = "AllMediaFragment";
     private static final String BUNDLE_ALBUM = "album";
+    private static final int REQUEST_IMAGE_CAPTURE = 1412;
+    private static final int REQUEST_VIDEO_CAPTURE = 1413;
+    private String pictureFilePath;
 
     @BindView(R.id.media) RecyclerView rv;
     @BindView(R.id.swipe_refresh) SwipeRefreshLayout refresh;
@@ -66,6 +80,7 @@ public class AllMediaFragment extends BaseMediaGridFragment {
     private GridSpacingItemDecoration spacingDecoration;
 
     private Album album;
+    private String fileName;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,14 +95,6 @@ public class AllMediaFragment extends BaseMediaGridFragment {
     }
 
     public static AllMediaFragment make(Album album) {
-        AllMediaFragment fragment = new AllMediaFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(BUNDLE_ALBUM, album);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    public static AllMediaFragment makeFavorite(Album album) {
         AllMediaFragment fragment = new AllMediaFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(BUNDLE_ALBUM, album);
@@ -239,7 +246,8 @@ public class AllMediaFragment extends BaseMediaGridFragment {
         menu.findItem(R.id.sharePhotos).setIcon(ThemeHelper.getToolbarIcon(getContext(),(GoogleMaterial.Icon.gmd_share)));
         menu.findItem(R.id.sort_action).setIcon(ThemeHelper.getToolbarIcon(getContext(),(GoogleMaterial.Icon.gmd_sort)));
         menu.findItem(R.id.filter_menu).setIcon(ThemeHelper.getToolbarIcon(getContext(), (GoogleMaterial.Icon.gmd_filter_list)));
-
+        menu.findItem(R.id.action_camera).setIcon(ThemeHelper.getToolbarIcon(getContext(), (GoogleMaterial.Icon.gmd_photo_camera)));
+        menu.findItem(R.id.action_video).setIcon(ThemeHelper.getToolbarIcon(getContext(), (GoogleMaterial.Icon.gmd_videocam)));
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -392,9 +400,54 @@ public class AllMediaFragment extends BaseMediaGridFragment {
             case R.id.affix:
                 Toast.makeText(getContext() , "Affix not support", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.action_camera:
+                if (checkCameraHardware(getContext())) {
+                    dispatchCamera();
+                }
+                return true;
+            case R.id.action_video:
+                if (checkCameraHardware(getContext())) {
+                    dispatchVideo();
+                }
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if ((requestCode == REQUEST_IMAGE_CAPTURE || requestCode == REQUEST_VIDEO_CAPTURE) && resultCode != RESULT_OK) {
+            File f = new File(Environment.getExternalStoragePublicDirectory("DCIM").toString());
+            for (File temp : f.listFiles()) {
+                if (temp.getName().equals(fileName)) {
+                    f = temp;
+                    break;
+                }
+            }
+            f.delete();
+            reload();
+        }
+    }
+    private void dispatchCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        fileName = "WUMBUM_" + timeStamp + ".jpg";
+        File f = new File(android.os.Environment.getExternalStoragePublicDirectory("DCIM"), fileName);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+        getActivity().startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+    }
+    private void dispatchVideo() {
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        fileName = "WUMBUM_" + timeStamp + ".mp4";
+        File f = new File(android.os.Environment.getExternalStoragePublicDirectory("DCIM"), fileName);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+        getActivity().startActivityForResult(intent, REQUEST_VIDEO_CAPTURE);
+    }
+
+    private boolean checkCameraHardware(Context context) {
+        return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 
     private void showDeleteBottomSheet() {
