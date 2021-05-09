@@ -7,12 +7,13 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.util.Log;
+
 import androidx.exifinterface.media.ExifInterface;
 
 import com.bumptech.glide.signature.ObjectKey;
 import com.drew.lang.GeoLocation;
 import com.drew.lang.annotations.NotNull;
-
 import com.wifosoft.wumbum.interfaces.ICursorHandler;
 import com.wifosoft.wumbum.util.ArrayUtils;
 import com.wifosoft.wumbum.util.FavoriteUtils;
@@ -171,6 +172,16 @@ public class Media implements ICursorHandler, Parcelable, TimelineItem {
     public int getOrientation() {
         return orientation;
     }
+    public void getGeo() {
+        ExifInterface exif;
+        try {
+            exif = new ExifInterface(getFile().getAbsolutePath());
+            Log.d("TAG", "getGeo latitude " + exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE));
+            Log.d("TAG", "getGeo longitude " + exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
+        } catch (IOException e) {
+            Log.e("PictureActivity", e.getLocalizedMessage());
+        }
+}
 
     //<editor-fold desc="Exif & More">
 // TODO remove from here!

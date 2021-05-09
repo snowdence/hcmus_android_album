@@ -10,6 +10,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
@@ -54,6 +55,7 @@ import com.wifosoft.wumbum.util.FavoriteUtils;
 import com.wifosoft.wumbum.util.preferences.Prefs;
 import com.wifosoft.wumbum.views.navigation_drawer.NavigationDrawer;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -582,5 +584,10 @@ public class MainActivity extends SharedMediaActivity implements
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
+//        if (requestCode == AllMediaFragment.REQUEST_IMAGE_CAPTURE || requestCode == AllMediaFragment.REQUEST_VIDEO_CAPTURE) {
+//            if (resultCode == RESULT_OK) {
+//                displayMedia(Album.getAllMediaAlbum());
+//            }
+//        }
     }
 }
