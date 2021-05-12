@@ -3,12 +3,14 @@ package com.wifosoft.wumbum.activities;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
@@ -21,6 +23,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -37,6 +42,7 @@ import com.wifosoft.wumbum.activities.base.SharedMediaActivity;
 //import com.wifosoft.wumbum.fragments.AlbumsFragment;
 //import com.wifosoft.wumbum.fragments.RvMediaFragment;
 import com.wifosoft.wumbum.fragments.AllMediaFragment;
+import com.wifosoft.wumbum.fragments.FavoriteMediaFragment;
 import com.wifosoft.wumbum.fragments.TimelineFragment;
 import com.wifosoft.wumbum.interfaces.IEditModeListener;
 import com.wifosoft.wumbum.interfaces.IMediaClickListener;
@@ -45,9 +51,11 @@ import com.wifosoft.wumbum.model.Album;
 import com.wifosoft.wumbum.model.Media;
 
 import com.wifosoft.wumbum.providers.LegacyCompatFileProvider;
+import com.wifosoft.wumbum.util.FavoriteUtils;
 import com.wifosoft.wumbum.util.preferences.Prefs;
 import com.wifosoft.wumbum.views.navigation_drawer.NavigationDrawer;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -59,6 +67,7 @@ import static com.wifosoft.wumbum.views.navigation_drawer.NavigationDrawer.NAVIG
 import static com.wifosoft.wumbum.views.navigation_drawer.NavigationDrawer.NAVIGATION_ITEM_ALL_ALBUMS;
 import static com.wifosoft.wumbum.views.navigation_drawer.NavigationDrawer.NAVIGATION_ITEM_ALL_MEDIA;
 import static com.wifosoft.wumbum.views.navigation_drawer.NavigationDrawer.NAVIGATION_ITEM_DONATE;
+import static com.wifosoft.wumbum.views.navigation_drawer.NavigationDrawer.NAVIGATION_ITEM_FAVORITE;
 import static com.wifosoft.wumbum.views.navigation_drawer.NavigationDrawer.NAVIGATION_ITEM_HIDDEN_FOLDERS;
 import static com.wifosoft.wumbum.views.navigation_drawer.NavigationDrawer.NAVIGATION_ITEM_SETTINGS;
 import static com.wifosoft.wumbum.views.navigation_drawer.NavigationDrawer.NAVIGATION_ITEM_TIMELINE;
@@ -75,6 +84,7 @@ public class MainActivity extends SharedMediaActivity implements
     public static final String ARGS_PICK_MODE = "pick_mode";
 
     private static final String SAVE_FRAGMENT_MODE = "fragment_mode";
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     public void changedEditMode(boolean editMode, int selected, int total, @Nullable View.OnClickListener listener, @Nullable String title) {
@@ -118,6 +128,7 @@ public class MainActivity extends SharedMediaActivity implements
     private AlbumsFragment albumsFragment;
     private AllMediaFragment allMediaFragment;
     private TimelineFragment timelineFragment;
+    private FavoriteMediaFragment favoriteMediaFragment;
 
     private boolean pickMode = false;
     private Unbinder unbinder;
@@ -424,97 +435,6 @@ public class MainActivity extends SharedMediaActivity implements
                 //SettingsActivity.startActivity(this);
                 return true;
 
-            /*
-            case R.id.action_move:
-                SelectAlbumBuilder.with(getSupportFragmentManager())
-                        .title(getString(R.string.move_to))
-                        .onFolderSelected(new SelectAlbumBuilder.OnFolderSelected() {
-                            @Override
-                            public void folderSelected(String path) {
-                                //TODo
-                                //swipeRefreshLayout.setRefreshing(true);
-                                /*if (getAlbum().moveSelectedMedia(getApplicationContext(), path) > 0) {
-                                    if (getAlbum().getMedia().size() == 0) {
-                                        //getAlbums().removeCurrentAlbum();
-                                        //albumsAdapter.notifyDataSetChanged();
-                                        displayAlbums(false);
-                                    }
-                                    //oldMediaAdapter.swapDataSet(getAlbum().getMedia());
-                                    //finishEditMode();
-                                    supportInvalidateOptionsMenu();
-                                } else requestSdCardPermissions();
-
-                                //swipeRefreshLayout.setRefreshing(false);
-                            }
-                        }).show();
-                return true;
-                */
-
-            /*
-            case R.id.action_copy:
-                SelectAlbumBuilder.with(getSupportFragmentManager())
-                        .title(getString(R.string.copy_to))
-                        .onFolderSelected(new SelectAlbumBuilder.OnFolderSelected() {
-                            @Override
-                            public void folderSelected(String path) {
-                                boolean success = getAlbum().copySelectedPhotos(getApplicationContext(), path);
-                                //finishEditMode();
-
-                                if (!success) // TODO: 11/21/16 handle in other way
-                                    requestSdCardPermissions();
-                            }
-                        }).show();
-
-                return true;
-
-                */
-
-
-            /*case R.id.rename:
-                final EditText editTextNewName = new EditText(getApplicationContext());
-                editTextNewName.setText(albumsMode ? firstSelectedAlbum.getName() : getAlbum().getName());
-
-                final AlertDialog insertTextDialog = AlertDialogsHelper.getInsertTextDialog(MainActivity.this, editTextNewName, R.string.rename_album);
-
-                insertTextDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel).toUpperCase(), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onMediaClick(DialogInterface dialogInterface, int i) {
-                        insertTextDialog.dismiss();
-                    }
-                });
-
-                insertTextDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.ok_action).toUpperCase(), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onMediaClick(DialogInterface dialogInterface, int i) {
-                        if (editTextNewName.length() != 0) {
-                            swipeRefreshLayout.setRefreshing(true);
-                            boolean success;
-                            if (albumsMode) {
-
-                                int index = getAlbums().albums.indexOf(firstSelectedAlbum);
-                                getAlbums().getAlbum(index).updatePhotos(getApplicationContext());
-                                success = getAlbums().getAlbum(index).renameAlbum(getApplicationContext(),
-                                        editTextNewName.getText().toString());
-                                albumsAdapter.notifyItemChanged(index);
-                            } else {
-                                success = getAlbum().renameAlbum(getApplicationContext(), editTextNewName.getText().toString());
-                                toolbar.setTitle(getAlbum().getName());
-                                oldMediaAdapter.notifyDataSetChanged();
-                            }
-                            insertTextDialog.dismiss();
-                            if (!success) requestSdCardPermissions();
-                            swipeRefreshLayout.setRefreshing(false);
-                        } else {
-                            StringUtils.showToast(getApplicationContext(), getString(R.string.insert_something));
-                            editTextNewName.requestFocus();
-                        }
-                    }
-                });
-
-                insertTextDialog.show();
-                return true;*/
-
-
             default:
                 /** If we got here, the user's action was not recognized.
                  *  Invoke the superclass to handle it. */
@@ -559,6 +479,16 @@ public class MainActivity extends SharedMediaActivity implements
         allMediaFragment.setListener(this);
         getSupportFragmentManager().beginTransaction().replace(R.id.content, allMediaFragment, AllMediaFragment.TAG).addToBackStack(null).commit();
 
+    }
+
+    public void displayFavoriteMedia(Album album) {
+        unreferenceFragments();
+
+        favoriteMediaFragment = FavoriteMediaFragment.make(album);
+        fragmentMode = FragmentMode.MODE_MEDIA;
+        lockNavigationDrawer();
+        favoriteMediaFragment.setListener(this);
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, favoriteMediaFragment, AllMediaFragment.TAG).addToBackStack(null).commit();
     }
 
     public void onItemSelected(@NavigationItem int navigationItemSelected) {
@@ -612,6 +542,11 @@ public class MainActivity extends SharedMediaActivity implements
             case NAVIGATION_ITEM_ABOUT:
                 Toast.makeText(this, "About WumBum App", Toast.LENGTH_SHORT).show();
                 break;
+            case NAVIGATION_ITEM_FAVORITE:
+                displayFavoriteMedia(Album.getAllMediaAlbum());
+                selectNavigationItem(navigationItemSelected);
+                Toast.makeText(this, String.valueOf(FavoriteUtils.getFavorites().size()), Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 
@@ -642,5 +577,17 @@ public class MainActivity extends SharedMediaActivity implements
     private void setupUiForTimeline() {
         lockNavigationDrawer();
         updateToolbar(getString(R.string.timeline_toolbar_title), GoogleMaterial.Icon.gmd_arrow_back, v -> goBackToAlbums());
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+//        if (requestCode == AllMediaFragment.REQUEST_IMAGE_CAPTURE || requestCode == AllMediaFragment.REQUEST_VIDEO_CAPTURE) {
+//            if (resultCode == RESULT_OK) {
+//                displayMedia(Album.getAllMediaAlbum());
+//            }
+//        }
     }
 }

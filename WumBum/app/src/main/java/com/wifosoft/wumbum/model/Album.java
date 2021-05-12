@@ -93,6 +93,12 @@ public class Album implements ICursorHandler, Parcelable {
         return album;
     }
 
+    public static Album getAllFavoriteMediaAlbum() {
+        Album album = new Album("All Favorite Media", ALL_MEDIA_ALBUM_ID);
+        album.settings = AlbumSettings.getFavorite();
+        return album;
+    }
+
     public static Album withPath(String path) {
         Album emptyAlbum = getEmptyAlbum();
         emptyAlbum.path = path;

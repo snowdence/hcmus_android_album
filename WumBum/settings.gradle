@@ -1,1 +1,2 @@
+include ':shiftcolorpicker-release'
 include ':app', 'inappstoragereader'

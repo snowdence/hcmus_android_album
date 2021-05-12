@@ -58,6 +58,7 @@ import com.wifosoft.wumbum.model.AlbumSettings;
 import com.wifosoft.wumbum.model.Media;
 import com.wifosoft.wumbum.providers.LegacyCompatFileProvider;
 import com.wifosoft.wumbum.sort.MediaComparators;
+import com.wifosoft.wumbum.util.FavoriteUtils;
 import com.yalantis.ucrop.UCrop;
 
 import com.wifosoft.wumbum.R;
@@ -175,6 +176,10 @@ public class SingleMediaActivity extends SharedMediaActivity implements BaseMedi
         media = intent.getParcelableArrayListExtra(EXTRA_ARGS_MEDIA);
     }
 
+    private boolean isFavorite() {
+        return FavoriteUtils.isFavorite(getCurrentMedia());
+    }
+
     private void loadAlbumsLazy(Intent intent) {
         album = intent.getParcelableExtra(EXTRA_ARGS_ALBUM);
         //position = intent.getIntExtra(EXTRA_ARGS_POSITION, 0);
@@ -211,7 +216,7 @@ public class SingleMediaActivity extends SharedMediaActivity implements BaseMedi
                             mViewPager.setCurrentItem(position);
 
                             updatePageTitle(position);
-
+                            invalidateOptionsMenu();
                         });
 
         disposeLater(disposable);
@@ -246,6 +251,7 @@ public class SingleMediaActivity extends SharedMediaActivity implements BaseMedi
 
         media = new ArrayList<>(Collections.singletonList(new Media(uri)));
         position = 0;
+        invalidateOptionsMenu();
         customUri = true;
     }
 
@@ -268,6 +274,7 @@ public class SingleMediaActivity extends SharedMediaActivity implements BaseMedi
 
         mViewPager.setAdapter(adapter);
         mViewPager.setCurrentItem(position);
+        invalidateOptionsMenu();
 
         useImageMenu = isCurrentMediaImage();
 
@@ -282,6 +289,7 @@ public class SingleMediaActivity extends SharedMediaActivity implements BaseMedi
             public void onPageSelected(int position) {
                 SingleMediaActivity.this.position = position;
                 updatePageTitle(position);
+                invalidateOptionsMenu();
 
                 // Invalidate the options menu only when we aren't using the correct menu
                 if (isCurrentMediaImage() == useImageMenu) return;
@@ -391,6 +399,11 @@ public class SingleMediaActivity extends SharedMediaActivity implements BaseMedi
         } else {
             getMenuInflater().inflate(R.menu.menu_view_pager, menu);
 
+            if (isFavorite()) {
+                menu.findItem(R.id.action_favorite).setIcon(getToolbarIcon(CommunityMaterial.Icon.cmd_heart));
+            } else {
+                menu.findItem(R.id.action_favorite).setIcon(getToolbarIcon(CommunityMaterial.Icon.cmd_heart_outline));
+            }
             menu.findItem(R.id.action_delete).setIcon(getToolbarIcon(CommunityMaterial.Icon.cmd_delete));
             menu.findItem(R.id.action_share).setIcon(getToolbarIcon(GoogleMaterial.Icon.gmd_share));
             menu.findItem(R.id.action_rotate).setIcon(getToolbarIcon(CommunityMaterial.Icon.cmd_rotate_right));
@@ -526,6 +539,17 @@ public class SingleMediaActivity extends SharedMediaActivity implements BaseMedi
                                 Toast.makeText(getApplicationContext(), R.string.copy_error, Toast.LENGTH_SHORT).show();
                         }).show();
                 break;
+
+            case R.id.action_favorite:
+                if (isFavorite()) {
+                    FavoriteUtils.removeFavorite(getCurrentMedia());
+                    item.setIcon(getToolbarIcon(CommunityMaterial.Icon.cmd_heart_outline));
+                } else {
+                    FavoriteUtils.addFavorite(getCurrentMedia());
+                    item.setIcon(getToolbarIcon(CommunityMaterial.Icon.cmd_heart));
+                }
+//                invalidateOptionsMenu();
+                return true;
 
             case R.id.action_share:
                 // TODO: 16/10/17 check if it works everywhere

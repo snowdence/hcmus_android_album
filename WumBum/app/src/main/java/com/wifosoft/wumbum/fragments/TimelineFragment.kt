@@ -233,6 +233,7 @@ class TimelineFragment : BaseMediaGridFragment(), IActionsListener {
         FilterMode.GIF -> R.id.gifs_media_filter
         FilterMode.VIDEO -> R.id.video_media_filter
         FilterMode.NO_VIDEO -> R.id.all_media_filter
+        FilterMode.FAVORITE -> R.id.all_media_filter
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

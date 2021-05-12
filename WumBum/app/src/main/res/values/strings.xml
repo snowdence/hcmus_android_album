@@ -67,6 +67,7 @@
     <string name="select_all">Select All</string>
     <string name="clear_selected">Clear Selected</string>
 
+    <string name="favorite">Favorite</string>
     <string name="share">Share</string>
     <string name="rotate">Rotate</string>
     <string name="rotate_right_90">Rotate right 90°</string>
@@ -320,6 +321,7 @@
     <!--DRAWER ITEMS-->
     <string name="local_folder">Local Folders</string>
     <string name="all_media">All Media</string>
+    <string name="favorite_media">Favorite Media</string>
     <string name="hidden_folder">Hidden Folders</string>
     <string name="tags">Tags</string>
     <string name="timeline">Timeline</string>

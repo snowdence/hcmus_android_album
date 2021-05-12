@@ -3,6 +3,7 @@ package com.wifosoft.wumbum.filter;
 
 import com.wifosoft.wumbum.interfaces.IMediaFilter;
 import com.wifosoft.wumbum.model.Media;
+import com.wifosoft.wumbum.util.FavoriteUtils;
 
 public class MediaFilter {
     public static IMediaFilter getFilter(FilterMode mode) {
@@ -14,6 +15,8 @@ public class MediaFilter {
             case VIDEO:
                 return Media::isVideo;
             case IMAGES: return Media::isImage;
+            case FAVORITE:
+                return Media::isFavorite;
         }
     }
 }

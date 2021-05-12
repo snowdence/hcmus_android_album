@@ -59,6 +59,13 @@
                 app:itemText="@string/local_folder" />
 
             <com.wifosoft.wumbum.views.navigation_drawer.NavigationEntry
+                android:id="@+id/navigation_item_favorite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemIcon="@string/icon_favorite"
+                app:itemText="@string/favorite_media" />
+
+            <com.wifosoft.wumbum.views.navigation_drawer.NavigationEntry
                 android:id="@+id/navigation_item_all_media"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

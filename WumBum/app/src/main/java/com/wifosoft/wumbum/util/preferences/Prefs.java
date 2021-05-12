@@ -7,6 +7,8 @@ import com.wifosoft.wumbum.CardViewStyle;
 import com.wifosoft.wumbum.sort.SortingMode;
 import com.wifosoft.wumbum.sort.SortingOrder;
 
+import java.util.Set;
+
 
 /**
  * Class for storing & retrieving application data.
@@ -134,6 +136,12 @@ public class Prefs {
         return getPrefs().get(Keys.LAST_VERSION_CODE, DefaultPrefs.LAST_VERSION_CODE);
     }
 
+//    Get list of favorite medias
+
+    public static Set<String> getFavoriteMedias() {
+        return getPrefs().get(Keys.MEDIA_FAVORITES, DefaultPrefs.MEDIA_FAVORITES);
+    }
+
     /********** SETTERS **********/
 
     /**
@@ -218,6 +226,10 @@ public class Prefs {
      */
     public static void setShowEasterEgg(boolean value) {
         getPrefs().put(Keys.SHOW_EASTER_EGG, value);
+    }
+
+    public static void setFavoriteMedias(Set<String> value) {
+        getPrefs().put(Keys.MEDIA_FAVORITES, value);
     }
 
     // ***** TODO Calvin: These methods does not belong here, DO NOT expose generic methods to clients

@@ -25,11 +25,22 @@ public class AlbumSettings implements Serializable, Parcelable {
         return new AlbumSettings(null, SortingMode.DATE.getValue(), 1, 0);
     }
 
+    public static AlbumSettings getFavorite() {
+        return new AlbumSettings(null, SortingMode.DATE.getValue(), 1, 0, FilterMode.FAVORITE);
+    }
+
     public AlbumSettings(String cover, int sortingMode, int sortingOrder, int pinned) {
         this.coverPath = cover;
         this.sortingMode = sortingMode;
         this.sortingOrder = sortingOrder;
         this.pinned = pinned == 1;
+    }
+    public AlbumSettings(String cover, int sortingMode, int sortingOrder, int pinned, FilterMode filterMode) {
+        this.coverPath = cover;
+        this.sortingMode = sortingMode;
+        this.sortingOrder = sortingOrder;
+        this.pinned = pinned == 1;
+        this.filterMode = filterMode;
     }
 
     public SortingMode getSortingMode() {
