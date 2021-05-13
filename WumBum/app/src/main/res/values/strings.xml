@@ -428,6 +428,9 @@
     <string name="msg_save_image">Are you want to exit without saving image ?</string>
     <string name="app_intent_name">PhotoEditor</string>
     <string name="msg_save_image_to_share">Please save image to share</string>
-    <string name="msg_share_image">Share Image</string>>
+    <string name="msg_share_image">Share Image</string>
+    <string name="set_password">Set password</string>
+    <string name="status_secure_password">Status Secure</string>
+    <string name="detail_secure_password">Success to secure this album</string>>
 
 </resources>

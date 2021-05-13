@@ -36,6 +36,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.orhanobut.hawk.Hawk;
 
+import com.wifosoft.wumbum.activities.SingleMediaActivity;
 import com.wifosoft.wumbum.filter.FoldersFileFilter;
 import com.wifosoft.wumbum.helper.AlertDialogsHelper;
 import com.wifosoft.wumbum.helper.StorageHelper;
@@ -197,6 +198,8 @@ public class SelectAlbumBuilder extends BottomSheetDialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         File folderPath = new File(currentFolderPath.getText().toString() + File.separator + editText.getText().toString());
                         if (folderPath.mkdir()) displayContentFolder(folderPath);
+
+
                     }
                 });
                 insertTextDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel).toUpperCase(), new DialogInterface.OnClickListener() {

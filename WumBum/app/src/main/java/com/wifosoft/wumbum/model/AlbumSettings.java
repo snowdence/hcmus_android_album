@@ -19,27 +19,37 @@ public class AlbumSettings implements Serializable, Parcelable {
     String coverPath;
     int sortingMode, sortingOrder;
     boolean pinned;
+    String password = "";
     FilterMode filterMode = FilterMode.ALL;
 
+    public boolean hasPassword(){
+        return password != null || !password.isEmpty() || !password.equals("");
+    }
+
+
+
     public static AlbumSettings getDefaults() {
-        return new AlbumSettings(null, SortingMode.DATE.getValue(), 1, 0);
+        return new AlbumSettings(null, SortingMode.DATE.getValue(), 1, 0 , "");
     }
 
     public static AlbumSettings getFavorite() {
-        return new AlbumSettings(null, SortingMode.DATE.getValue(), 1, 0, FilterMode.FAVORITE);
+        return new AlbumSettings(null, SortingMode.DATE.getValue(), 1, 0, "" , FilterMode.FAVORITE);
     }
 
-    public AlbumSettings(String cover, int sortingMode, int sortingOrder, int pinned) {
+    public AlbumSettings(String cover, int sortingMode, int sortingOrder, int pinned, String password) {
         this.coverPath = cover;
         this.sortingMode = sortingMode;
         this.sortingOrder = sortingOrder;
         this.pinned = pinned == 1;
+        this.password = password;
     }
-    public AlbumSettings(String cover, int sortingMode, int sortingOrder, int pinned, FilterMode filterMode) {
+
+    public AlbumSettings(String cover, int sortingMode, int sortingOrder, int pinned, String password, FilterMode filterMode) {
         this.coverPath = cover;
         this.sortingMode = sortingMode;
         this.sortingOrder = sortingOrder;
         this.pinned = pinned == 1;
+        this.password = password;
         this.filterMode = filterMode;
     }
 
@@ -50,7 +60,9 @@ public class AlbumSettings implements Serializable, Parcelable {
     public SortingOrder getSortingOrder() {
         return SortingOrder.fromValue(sortingOrder);
     }
-
+    public String getPassword() {
+        return this.password;
+    }
     @Override
     public int describeContents() {
         return 0;
@@ -62,6 +74,7 @@ public class AlbumSettings implements Serializable, Parcelable {
         dest.writeInt(this.sortingMode);
         dest.writeInt(this.sortingOrder);
         dest.writeByte(this.pinned ? (byte) 1 : (byte) 0);
+        dest.writeString(this.password);
         dest.writeInt(this.filterMode == null ? -1 : this.filterMode.ordinal());
     }
 
@@ -71,6 +84,7 @@ public class AlbumSettings implements Serializable, Parcelable {
         this.sortingMode = in.readInt();
         this.sortingOrder = in.readInt();
         this.pinned = in.readByte() != 0;
+        this.password = in.readString();
         int tmpFilterMode = in.readInt();
         this.filterMode = tmpFilterMode == -1 ? null : FilterMode.values()[tmpFilterMode];
     }

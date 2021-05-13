@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -31,19 +32,23 @@ import com.wifosoft.wumbum.adapters.AlbumsAdapter;
 import com.wifosoft.wumbum.fragments.BaseMediaGridFragment;
 import com.wifosoft.wumbum.helper.AlbumsHelper;
 import com.wifosoft.wumbum.helper.AlertDialogsHelper;
+import com.wifosoft.wumbum.helper.MediaHelper;
 import com.wifosoft.wumbum.helper.QueryAlbums;
 import com.wifosoft.wumbum.helper.QueryHelper;
 import com.wifosoft.wumbum.model.Album;
+import com.wifosoft.wumbum.model.Media;
 import com.wifosoft.wumbum.sort.SortingMode;
 import com.wifosoft.wumbum.sort.SortingOrder;
 import com.wifosoft.wumbum.util.AnimationUtils;
 import com.wifosoft.wumbum.util.DeviceUtils;
 import com.wifosoft.wumbum.util.Measure;
+import com.wifosoft.wumbum.util.StringUtils;
 import com.wifosoft.wumbum.util.preferences.Prefs;
 import com.wifosoft.wumbum.views.GridSpacingItemDecoration;
 import org.horaapps.liz.ThemeHelper;
 import org.horaapps.liz.ThemedActivity;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -288,38 +293,63 @@ public class AlbumsFragment extends BaseMediaGridFragment {
                 return false;
 
             case R.id.hide:
-                final AlertDialog hideDialog = AlertDialogsHelper.getTextDialog(((ThemedActivity) getActivity()),
-                        hidden ? R.string.unhide : R.string.hide,
-                        hidden ? R.string.unhide_album_message : R.string.hide_album_message);
+                final EditText editText = new EditText(getContext());
+                AlertDialog insertTextDialog = AlertDialogsHelper.getInsertTextDialog(((ThemedActivity) getActivity()), editText, R.string.set_password);
+                insertTextDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.ok_action).toUpperCase(), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String password  = editText.getText().toString();
+                        db().secureAlbum(selectedAlbum.getPath(),password);
 
-                hideDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(hidden ? R.string.unhide : R.string.hide).toUpperCase(), (dialog, id) -> {
-                    ArrayList<String> hiddenPaths = AlbumsHelper.getLastHiddenPaths();
+                        final AlertDialog textDialog = AlertDialogsHelper.getTextDialog( (ThemedActivity)getActivity(), R.string.status_secure_password, R.string.detail_secure_password);
+                        textDialog.setButton(DialogInterface.BUTTON_NEGATIVE,  getString(R.string.cancel).toUpperCase(), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                textDialog.dismiss();
+                            }
+                        });
+                        textDialog.show();
 
-                    for (Album album : adapter.getSelectedAlbums()) {
-                        if (hidden) { // unhide
-                            AlbumsHelper.unHideAlbum(album.getPath(), getContext());
-                            hiddenPaths.remove(album.getPath());
-                        } else { // hide
-                            AlbumsHelper.hideAlbum(album.getPath(), getContext());
-                            hiddenPaths.add(album.getPath());
-                        }
                     }
-                    AlbumsHelper.saveLastHiddenPaths(hiddenPaths);
-                    adapter.removeSelectedAlbums();
-                    updateToolbar();
                 });
+                insertTextDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel).toUpperCase(), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {}
+                });
+                insertTextDialog.show();
 
-                if (!hidden) {
-                    hideDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.exclude).toUpperCase(), (dialog, which) -> {
-                        for (Album album : adapter.getSelectedAlbums()) {
-                            db().excludeAlbum(album.getPath());
-                            excuded.add(album.getPath());
-                        }
-                        adapter.removeSelectedAlbums();
-                    });
-                }
-                hideDialog.setButton(DialogInterface.BUTTON_NEGATIVE, this.getString(R.string.cancel).toUpperCase(), (dialogInterface, i) -> hideDialog.dismiss());
-                hideDialog.show();
+//                final AlertDialog hideDialog = AlertDialogsHelper.getTextDialog(((ThemedActivity) getActivity()),
+//                        hidden ? R.string.unhide : R.string.hide,
+//                        hidden ? R.string.unhide_album_message : R.string.hide_album_message);
+//
+//                hideDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(hidden ? R.string.unhide : R.string.hide).toUpperCase(), (dialog, id) -> {
+//                    ArrayList<String> hiddenPaths = AlbumsHelper.getLastHiddenPaths();
+//
+//                    for (Album album : adapter.getSelectedAlbums()) {
+//                        if (hidden) { // unhide
+//                            AlbumsHelper.unHideAlbum(album.getPath(), getContext());
+//                            hiddenPaths.remove(album.getPath());
+//                        } else { // hide
+//                            AlbumsHelper.hideAlbum(album.getPath(), getContext());
+//                            hiddenPaths.add(album.getPath());
+//                        }
+//                    }
+//                    AlbumsHelper.saveLastHiddenPaths(hiddenPaths);
+//                    adapter.removeSelectedAlbums();
+//                    updateToolbar();
+//                });
+//
+//                if (!hidden) {
+//                    hideDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.exclude).toUpperCase(), (dialog, which) -> {
+//                        for (Album album : adapter.getSelectedAlbums()) {
+//                            db().excludeAlbum(album.getPath());
+//                            excuded.add(album.getPath());
+//                        }
+//                        adapter.removeSelectedAlbums();
+//                    });
+//                }
+//                hideDialog.setButton(DialogInterface.BUTTON_NEGATIVE, this.getString(R.string.cancel).toUpperCase(), (dialogInterface, i) -> hideDialog.dismiss());
+//                hideDialog.show();
                 return true;
 
             case R.id.shortcut:

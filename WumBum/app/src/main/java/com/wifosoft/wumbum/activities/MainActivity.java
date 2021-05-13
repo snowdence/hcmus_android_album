@@ -52,8 +52,11 @@ import com.wifosoft.wumbum.model.Media;
 
 import com.wifosoft.wumbum.providers.LegacyCompatFileProvider;
 import com.wifosoft.wumbum.util.FavoriteUtils;
+import com.wifosoft.wumbum.util.Security;
 import com.wifosoft.wumbum.util.preferences.Prefs;
 import com.wifosoft.wumbum.views.navigation_drawer.NavigationDrawer;
+
+import org.horaapps.liz.ThemedActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -387,7 +390,6 @@ public class MainActivity extends SharedMediaActivity implements
 
         navigationDrawerView.setTheme(getPrimaryColor(), getBackgroundColor(), getTextColor(), getIconColor());
 
-        // TODO Calvin: This performs a NO-OP. Find out what this is used for
         setRecentApp(getString(R.string.app_name));
     }
 
@@ -432,7 +434,7 @@ public class MainActivity extends SharedMediaActivity implements
 
             case R.id.settings:
                 Toast.makeText(this, "Setting screen", Toast.LENGTH_SHORT);
-                //SettingsActivity.startActivity(this);
+                SettingActivity.startActivity(this);
                 return true;
 
             default:
@@ -466,7 +468,22 @@ public class MainActivity extends SharedMediaActivity implements
 
     @Override
     public void onAlbumClick(Album album) {
-        displayMedia(album);
+        if (album.settings.hasPassword()) {
+            Security.authenticateUser(MainActivity.this, album, new Security.AuthCallBack() {
+                @Override
+                public void onAuthenticated() {
+                    displayMedia(album);
+                }
+
+                @Override
+                public void onError() {
+                    Toast.makeText(getApplicationContext(), R.string.wrong_password, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else{
+            displayMedia(album);
+        }
+
         Toast.makeText(this, album.getName(), Toast.LENGTH_SHORT).show();
     }
 
@@ -536,7 +553,7 @@ public class MainActivity extends SharedMediaActivity implements
                 Toast.makeText(this, "Affix", Toast.LENGTH_SHORT).show();
                 break;
             case NAVIGATION_ITEM_SETTINGS:
-                //SettingsActivity.startActivity(this);
+                SettingActivity.startActivity(this);
                 break;
 
             case NAVIGATION_ITEM_ABOUT:

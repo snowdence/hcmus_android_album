@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.wifosoft.wumbum.model.Album;
@@ -21,7 +23,7 @@ import java.util.HashSet;
  */
 public class QueryAlbums extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 13;
     private static final String DATABASE_NAME = "folders.db";
     private static final String TABLE_ALBUMS = "folders";
 
@@ -35,6 +37,7 @@ public class QueryAlbums extends SQLiteOpenHelper {
     private static final String ALBUM_STATUS = "status";
     private static final String ALBUM_SORTING_MODE = "sorting_mode";
     private static final String ALBUM_SORTING_ORDER = "sorting_order";
+    private static final String ALBUM_PASSWORD  = "password";
 
     private static QueryAlbums mInstance = null;
 
@@ -57,7 +60,10 @@ public class QueryAlbums extends SQLiteOpenHelper {
                 ALBUM_COVER_PATH + " TEXT, " +
                 ALBUM_STATUS + " INTEGER, " +
                 ALBUM_SORTING_MODE + " INTEGER, " +
-                ALBUM_SORTING_ORDER + " INTEGER)");
+                ALBUM_SORTING_ORDER + " INTEGER, " +
+                ALBUM_PASSWORD + " TEXT" +
+                ")");
+
 
         db.execSQL(String.format("CREATE UNIQUE INDEX idx_path ON %s (%s)", TABLE_ALBUMS, ALBUM_PATH));
     }
@@ -73,11 +79,29 @@ public class QueryAlbums extends SQLiteOpenHelper {
         excludeAlbum(db, Album.withPath(path));
         db.close();
     }
+    public void secureAlbum(String path, String password)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        secureAlbum(db, Album.withPath(path), password);
+        db.close();
+    }
+    public void unSecureAlbum(String path, String password)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        secureAlbum(db, Album.withPath(path), "");
+        db.close();
+    }
+
 
     private void excludeAlbum(SQLiteDatabase db, Album album) {
         changeSatusAlbum(db, album, EXCLUDED);
         // TODO: 3/26/17 notify
     }
+
+    private void secureAlbum(SQLiteDatabase db, Album album, String password){
+        addPasswordAlbum(db , album, password);
+    }
+
 
     public void addFolderToWhiteList(String path) {
         SQLiteDatabase db = getWritableDatabase();
@@ -96,6 +120,25 @@ public class QueryAlbums extends SQLiteOpenHelper {
         return list;
     }
 
+
+    private void addPasswordAlbum(SQLiteDatabase db, Album album, String password) {
+        ContentValues values = new ContentValues();
+        values.put(ALBUM_PASSWORD, password);
+        if (exist(db, album.getPath())) {
+            db.update(TABLE_ALBUMS, values, ALBUM_PATH+"=?", new String[]{ album.getPath() });
+            AlbumSettings setting = getSettings(db, album.getPath());
+            Log.d("ASK_PASSWORD", setting.getPassword());
+        } else {
+            values.put(ALBUM_PATH, album.getPath());
+            values.put(ALBUM_PINNED, 0);
+            values.put(ALBUM_SORTING_MODE, SortingMode.DATE.getValue());
+            values.put(ALBUM_SORTING_ORDER, SortingOrder.DESCENDING.getValue());
+            values.put(ALBUM_ID, album.getId());
+            values.put(ALBUM_PASSWORD, password);
+            db.insert(TABLE_ALBUMS, null, values);
+        }
+    }
+
     private void changeSatusAlbum(SQLiteDatabase db, Album album, int status) {
         ContentValues values = new ContentValues();
         values.put(ALBUM_STATUS, status);
@@ -107,6 +150,7 @@ public class QueryAlbums extends SQLiteOpenHelper {
             values.put(ALBUM_SORTING_MODE, SortingMode.DATE.getValue());
             values.put(ALBUM_SORTING_ORDER, SortingOrder.DESCENDING.getValue());
             values.put(ALBUM_ID, album.getId());
+            values.put(ALBUM_PASSWORD, "");
             db.insert(TABLE_ALBUMS, null, values);
         }
     }
@@ -118,6 +162,7 @@ public class QueryAlbums extends SQLiteOpenHelper {
         values.put(ALBUM_SORTING_MODE, SortingMode.DATE.getValue());
         values.put(ALBUM_SORTING_ORDER, SortingOrder.DESCENDING.getValue());
         values.put(ALBUM_ID, -1);
+        values.put(ALBUM_PASSWORD, "");
         return values;
     }
 
@@ -209,7 +254,8 @@ public class QueryAlbums extends SQLiteOpenHelper {
                                 ALBUM_COVER_PATH,
                                 ALBUM_SORTING_MODE,
                                 ALBUM_SORTING_ORDER,
-                                ALBUM_PINNED),
+                                ALBUM_PINNED,
+                                ALBUM_PASSWORD),
                         ALBUM_PATH + "=?",
                         new String[]{path},
                         null, null, null);
@@ -219,7 +265,8 @@ public class QueryAlbums extends SQLiteOpenHelper {
                             cursor.getString(0),
                             cursor.getInt(1),
                             cursor.getInt(2),
-                            cursor.getInt(3));
+                            cursor.getInt(3),
+                            cursor.getString(4));
             } else
                 db.insert(
                         TABLE_ALBUMS,
