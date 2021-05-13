@@ -2,8 +2,10 @@ package com.wifosoft.wumbum.activities;
 
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -15,6 +17,7 @@ import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +25,7 @@ import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,6 +34,7 @@ import androidx.transition.ChangeBounds;
 import androidx.transition.TransitionManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.snackbar.Snackbar;
 import com.wifosoft.wumbum.R;
 import com.wifosoft.wumbum.activities.base.BaseActivity;
 import com.wifosoft.wumbum.adapters.EditingToolsAdapter;
@@ -38,11 +43,14 @@ import com.wifosoft.wumbum.fragments.EmojiBSFragment;
 import com.wifosoft.wumbum.fragments.PropertiesBSFragment;
 import com.wifosoft.wumbum.fragments.StickerBSFragment;
 import com.wifosoft.wumbum.fragments.TextEditorDialogFragment;
+import com.wifosoft.wumbum.helper.FileSaveHelper;
 import com.wifosoft.wumbum.interfaces.IFilterListener;
 import com.wifosoft.wumbum.tools.ToolType;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener;
 import ja.burhanrashid52.photoeditor.PhotoEditor;
@@ -124,7 +132,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
         //Set Image Dynamically
         mPhotoEditorView.getSource().setImageResource(R.drawable.calvin_profile);
         handleIntentImage(mPhotoEditorView.getSource());
-
+        mSaveFileHeper = new FileSaveHelper(this);
 
     }
 
@@ -280,10 +288,88 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                 FILE_PROVIDER_AUTHORITY,
                 new File(uri.getPath()));
     }
+    public static final int READ_WRITE_STORAGE = 52;
 
+    public boolean requestPermission(String permission) {
+        boolean isGranted = ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED;
+        if (!isGranted) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{permission},
+                    READ_WRITE_STORAGE);
+        }
+        return isGranted;
+    }
 
+    FileSaveHelper mSaveFileHeper;
     private void saveImage() {
         //save image
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String fileName = "WUMBUM_" + timeStamp + ".jpg";
+        File tempFile = new File(android.os.Environment.getExternalStoragePublicDirectory("DCIM"), fileName);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+            return;
+        }
+        mSaveFileHeper.createFile(fileName, (fileCreated, filePath, error, uri) -> {
+            if (fileCreated) {
+
+                SaveSettings saveSettings = new SaveSettings.Builder()
+                        .setClearViewsEnabled(true)
+                        .setTransparencyEnabled(true)
+                        .build();
+                mPhotoEditor.saveAsFile(filePath, saveSettings, new PhotoEditor.OnSaveListener() {
+
+                    @Override
+                    public void onSuccess(@NonNull String imagePath) {
+
+                        showSnackbar("Image Saved Successfully");
+                        mSaveImageUri = uri;
+                        mPhotoEditorView.getSource().setImageURI(mSaveImageUri);
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        hideLoading();
+                        showSnackbar("Failed to save Image");
+                    }
+                });
+            }
+        });
+    }
+
+    private ProgressDialog mProgressDialog;
+
+    protected void showLoading(@NonNull String message) {
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage(message);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
+    }
+
+    protected void hideLoading() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
+    }
+    protected void showSnackbar(@NonNull String message) {
+        View view = findViewById(android.R.id.content);
+        if (view != null) {
+            Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
 

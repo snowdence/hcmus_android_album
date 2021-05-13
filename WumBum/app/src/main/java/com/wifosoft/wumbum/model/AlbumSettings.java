@@ -23,7 +23,10 @@ public class AlbumSettings implements Serializable, Parcelable {
     FilterMode filterMode = FilterMode.ALL;
 
     public boolean hasPassword(){
-        return password != null || !password.isEmpty() || !password.equals("");
+        if (password == null){return false;}
+        if (password.isEmpty()) {return false;}
+        if( password.equals("")) {return false;}
+        return true;
     }
 
 

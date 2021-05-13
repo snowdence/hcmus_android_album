@@ -308,6 +308,13 @@ public class AlbumsAdapter extends ThemedAdapter<AlbumsAdapter.ViewHolder> {
         holder.path.setVisibility(Prefs.showAlbumPath() ? View.VISIBLE : View.GONE);
         holder.path.setText(a.getPath());
 
+        if(a.settings.hasPassword() == false){
+            holder.imgLock.setVisibility(View.GONE);
+        }
+        else {
+            holder.imgLock.setVisibility(View.VISIBLE);
+
+        }
         //START Animation MAKES BUG ON FAST TAP ON CARD
         //Animation anim;
         //anim = AnimationUtils.loadAnimation(holder.albumCard.getContext(), R.anim.slide_fade_card);
@@ -365,6 +372,8 @@ public class AlbumsAdapter extends ThemedAdapter<AlbumsAdapter.ViewHolder> {
 
         @BindView(R.id.album_card) CardView card;
         @BindView(R.id.album_preview) ImageView picture;
+        @BindView(R.id.imgLock) ImageView imgLock;
+
         @BindView(R.id.selected_icon)
         ThemedIcon selectedIcon;
         @BindView(R.id.ll_album_info) View footer;
