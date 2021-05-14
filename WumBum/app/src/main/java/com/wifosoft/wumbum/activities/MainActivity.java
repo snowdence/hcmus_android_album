@@ -3,6 +3,7 @@ package com.wifosoft.wumbum.activities;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -52,6 +53,7 @@ import com.wifosoft.wumbum.model.Media;
 
 import com.wifosoft.wumbum.providers.LegacyCompatFileProvider;
 import com.wifosoft.wumbum.util.FavoriteUtils;
+import com.wifosoft.wumbum.util.LanguageUtil;
 import com.wifosoft.wumbum.util.Security;
 import com.wifosoft.wumbum.util.preferences.Prefs;
 import com.wifosoft.wumbum.views.navigation_drawer.NavigationDrawer;
@@ -60,6 +62,7 @@ import org.horaapps.liz.ThemedActivity;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -140,8 +143,23 @@ public class MainActivity extends SharedMediaActivity implements
     private int fragmentMode;
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Locale locale = new Locale("vi-rVN");
+        Locale.setDefault(locale);
+        Resources resources = this.getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
+
+
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
 

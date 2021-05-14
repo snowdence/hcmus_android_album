@@ -1,12 +1,15 @@
 package com.wifosoft.wumbum.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +29,7 @@ import com.wifosoft.wumbum.util.StringUtils;
 import org.horaapps.liz.ColorPalette;
 
 import java.io.File;
+import java.util.Locale;
 
 /**
  * Created by dnld on 01/04/16.
@@ -47,6 +51,7 @@ public class SplashScreen extends SharedMediaActivity {
     public final static String ACTION_OPEN_ALBUM = "com.wifosoft.wumbum.OPEN_ALBUM";
 
     //private Album tmpAlbum;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
