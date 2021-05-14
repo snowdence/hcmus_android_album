@@ -51,7 +51,22 @@
                         android:textColor="@color/md_dark_background"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold"/>
-
+                    <!-- LANGUAGE -->
+                    <com.wifosoft.wumbum.views.SettingBasic
+                        android:id="@+id/ll_language"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:settingCaption="@string/language_sub"
+                        app:settingIcon="faw-language"
+                        app:settingTitle="@string/language"/>
+                    <!-- SECURITY -->
+                    <com.wifosoft.wumbum.views.SettingBasic
+                        android:id="@+id/ll_security"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:settingCaption="@string/security_sub"
+                        app:settingIcon="faw-user-secret"
+                        app:settingTitle="@string/security"/>
 
                     <!-- NUMBER OF COLUMNS -->
                     <com.wifosoft.wumbum.views.SettingBasic

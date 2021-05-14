@@ -2,9 +2,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.wifosoft.wumbum.activities.MainActivity">
-
     <group android:id="@+id/general_album_items">
 
+        <item
+            android:id="@+id/search_action"
+            android:title="@string/search_menu"
+            app:actionViewClass="androidx.appcompat.widget.SearchView"
+            app:queryHint="@string/coming_soon"
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/action_camera"
+            android:title="@string/camera"
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/action_video"
+            android:title="@string/video"
+            app:showAsAction="always" />
         <item
             android:id="@+id/sort_action"
             android:title="@string/sort_menu_title"
