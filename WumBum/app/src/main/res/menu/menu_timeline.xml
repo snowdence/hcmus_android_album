@@ -85,21 +85,11 @@
             android:title="@string/delete"
             app:showAsAction="ifRoom" />
 
-        <item
-            android:id="@+id/timeline_menu_exclude"
-            android:title="@string/exclude"
-            android:visible="false"
-            app:showAsAction="never" />
 
-        <item
-            android:id="@+id/timeline_menu_shortcut"
-            android:title="@string/install_shortcut"
-            android:visible="false"
-            app:showAsAction="never" />
 
         <item
             android:id="@+id/timeline_menu_hide"
-            android:title="@string/hide"
+            android:title="@string/secure"
             android:visible="false"
             app:showAsAction="never" />
 

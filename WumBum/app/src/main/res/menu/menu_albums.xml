@@ -102,21 +102,14 @@
     <group android:id="@+id/album_options_menu">
         <item
             android:id="@+id/hide"
-            android:title="@string/hide"
-            app:showAsAction="never" />
-        <item
-            android:id="@+id/exclude"
-            android:title="@string/exclude"
+            android:title="@string/secure"
             app:showAsAction="never" />
         <item
             android:id="@+id/pin_album"
             android:title="@string/pin"
             app:showAsAction="never" />
 
-        <item
-            android:id="@+id/shortcut"
-            android:title="@string/install_shortcut"
-            app:showAsAction="never" />
+
     </group>
     <item
         android:id="@+id/rename"
@@ -136,11 +129,7 @@
         android:title="@string/clear_preview"
         android:visible="false"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_palette"
-        android:title="@string/palette"
-        android:visible="false"
-        app:showAsAction="never" />
+
     <item
         android:id="@+id/settings"
         android:title="@string/settings"

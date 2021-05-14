@@ -25,11 +25,7 @@
                     android:title="@string/rotate_180" />
             </menu>
         </item>
-        <item
-            android:id="@+id/action_palette"
-            android:title="@string/palette"
-            app:showAsAction="never"
-            android:orderInCategory="4" />
+
         <item
             android:id="@+id/action_use_as"
             android:title="@string/use_as"
@@ -95,10 +91,7 @@
                 android:id="@+id/action_open_with"
                 android:title="@string/open_with"
                 app:showAsAction="never" />
-            <item
-                android:title="@string/upload"
-                android:visible="false"
-                app:showAsAction="never" />
+
             <item
                 android:id="@+id/action_settings"
                 android:title="@string/settings"

@@ -23,7 +23,6 @@ public class FavoriteUtils {
         return res;
     }
 
-    // This four methods are used for maintaining favorites.
     public static void saveFavorites(Set<String> favorites) {
         Prefs.setFavoriteMedias(favorites);
     }

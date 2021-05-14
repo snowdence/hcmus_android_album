@@ -11,9 +11,7 @@ import com.wifosoft.wumbum.sort.SortingOrder;
 
 import java.io.Serializable;
 
-/**
- * Created by dnld on 2/4/16.
- */
+
 public class AlbumSettings implements Serializable, Parcelable {
 
     String coverPath;

@@ -16,9 +16,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by dnld on 1/3/16.
- */
+
 public class StringUtils {
 
     public static String[] asArray(String... a) {
@@ -137,13 +135,6 @@ public class StringUtils {
                 color, content);
     }
 
-    /**
-     * Returns a user-readable date formatted.
-     * eg: Sunday, 31 December 2017
-     *
-     * @param date The date object
-     * @return A user-readable date string.
-     */
     public static String getUserReadableDate(@NonNull Date date) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("E, d MMM yyyy", Locale.getDefault());
         return dateFormatter.format(date);

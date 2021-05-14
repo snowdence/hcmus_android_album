@@ -85,11 +85,7 @@
             android:id="@+id/delete"
             android:title="@string/delete"
             app:showAsAction="ifRoom" />
-        <item
-            android:id="@+id/affix"
-            android:title="@string/affix"
-            android:visible="false"
-            app:showAsAction="never" />
+
         <item
             android:id="@+id/action_copy"
             android:title="@string/copy_to"
@@ -100,11 +96,7 @@
             app:showAsAction="never" />
     </group>
     <group android:id="@+id/one_selected_items">
-        <item
-            android:id="@+id/action_palette"
-            android:title="@string/palette"
-            android:visible="false"
-            app:showAsAction="never" />
+
         <item
             android:id="@+id/set_as_cover"
             android:title="@string/set_preview"
@@ -120,18 +112,12 @@
             android:id="@+id/hide"
             android:title="@string/hide"
             app:showAsAction="never" />
-        <item
-            android:id="@+id/exclude"
-            android:title="@string/exclude"
-            app:showAsAction="never" />
+
         <item
             android:id="@+id/pin_album"
             android:title="@string/pin"
             app:showAsAction="never" />
-        <item
-            android:id="@+id/shortcut"
-            android:title="@string/install_shortcut"
-            app:showAsAction="never" />
+
         <item
             android:id="@+id/clear_album_cover"
             android:title="@string/clear_preview"

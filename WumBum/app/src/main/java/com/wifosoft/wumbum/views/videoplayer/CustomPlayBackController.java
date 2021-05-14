@@ -33,9 +33,6 @@ import org.horaapps.liz.ThemeHelper;
 import java.util.Formatter;
 import java.util.Locale;
 
-/**
- * Created by dnld on 12/6/16.
- */
 
 public class CustomPlayBackController extends FrameLayout {
 

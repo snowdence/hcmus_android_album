@@ -37,9 +37,7 @@ import java.util.HashSet;
 import static com.wifosoft.wumbum.helper.MediaHelper.scanFile;
 
 
-/**
- * Created by dnld on 26/05/16.
- */
+
 public class StorageHelper {
 
     private static final String TAG = "StorageHelper";
@@ -68,9 +66,7 @@ public class StorageHelper {
         }
         boolean result = file.canWrite();
 
-        // Ensure that file is not created during this process.
         if (!isExisting) {
-            //noinspection ResultOfMethodCallIgnored
             file.delete();
         }
 

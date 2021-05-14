@@ -16,9 +16,6 @@ import com.wifosoft.wumbum.util.StringUtils;
 import java.io.File;
 import java.util.ArrayList;
 
-/**
- * Created by dnld on 26/04/16.
- */
 public class Album implements ICursorHandler, Parcelable {
 
     public static final long ALL_MEDIA_ALBUM_ID = 8000;
@@ -132,7 +129,6 @@ public class Album implements ICursorHandler, Parcelable {
             return new Media(settings.coverPath);
         if (lastMedia != null)
             return lastMedia;
-        // TODO: 11/20/16 how should i handle this?
         return new Media();
     }
 

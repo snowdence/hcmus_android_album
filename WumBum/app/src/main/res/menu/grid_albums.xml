@@ -4,12 +4,7 @@
     tools:context="com.wifosoft.wumbum.activities.MainActivity">
 
     <group android:id="@+id/general_album_items">
-        <item
-            android:id="@+id/search_action"
-            android:title="@string/search_menu"
-            app:actionViewClass="androidx.appcompat.widget.SearchView"
-            app:queryHint="@string/coming_soon"
-            app:showAsAction="ifRoom|collapseActionView" />
+
         <item
             android:id="@+id/sort_action"
             android:title="@string/sort_menu_title"
@@ -51,17 +46,11 @@
             android:id="@+id/delete"
             android:title="@string/delete"
             app:showAsAction="ifRoom" />
-        <item
-            android:id="@+id/exclude"
-            android:title="@string/exclude"
-            app:showAsAction="never" />
-        <item
-            android:id="@+id/shortcut"
-            android:title="@string/install_shortcut"
-            app:showAsAction="never" />
+
+
         <item
             android:id="@+id/hide"
-            android:title="@string/hide"
+            android:title="@string/secure"
             app:showAsAction="never" />
     </group>
     <group android:id="@+id/one_selected_items">

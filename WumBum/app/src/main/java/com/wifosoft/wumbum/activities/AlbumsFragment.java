@@ -57,9 +57,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
 
-/**
- * Created by dnld on 3/13/17.
- */
 
 public class AlbumsFragment extends BaseMediaGridFragment {
 
@@ -218,7 +215,7 @@ public class AlbumsFragment extends BaseMediaGridFragment {
         menu.findItem(R.id.select_all).setIcon(ThemeHelper.getToolbarIcon(getContext(), GoogleMaterial.Icon.gmd_select_all));
         menu.findItem(R.id.delete).setIcon(ThemeHelper.getToolbarIcon(getContext(), (GoogleMaterial.Icon.gmd_delete)));
         menu.findItem(R.id.sort_action).setIcon(ThemeHelper.getToolbarIcon(getContext(),(GoogleMaterial.Icon.gmd_sort)));
-        menu.findItem(R.id.search_action).setIcon(ThemeHelper.getToolbarIcon(getContext(), (GoogleMaterial.Icon.gmd_search)));
+        //menu.findItem(R.id.search_action).setIcon(ThemeHelper.getToolbarIcon(getContext(), (GoogleMaterial.Icon.gmd_search)));
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -388,52 +385,52 @@ public class AlbumsFragment extends BaseMediaGridFragment {
                 AlbumsHelper.setSortingOrder(sortingOrder);
                 return true;
 
-            case R.id.exclude:
-                final AlertDialog.Builder excludeDialogBuilder = new AlertDialog.Builder(getActivity(), getDialogStyle());
-
-                final View excludeDialogLayout = LayoutInflater.from(getContext()).inflate(R.layout.dialog_exclude, null);
-                TextView textViewExcludeTitle = excludeDialogLayout.findViewById(R.id.text_dialog_title);
-                TextView textViewExcludeMessage = excludeDialogLayout.findViewById(R.id.text_dialog_message);
-                final Spinner spinnerParents = excludeDialogLayout.findViewById(R.id.parents_folder);
-
-                spinnerParents.getBackground().setColorFilter(getIconColor(), PorterDuff.Mode.SRC_ATOP);
-
-                ((CardView) excludeDialogLayout.findViewById(R.id.message_card)).setCardBackgroundColor(getCardBackgroundColor());
-                textViewExcludeTitle.setBackgroundColor(getPrimaryColor());
-                textViewExcludeTitle.setText(getString(R.string.exclude));
-
-                if(adapter.getSelectedCount() > 1) {
-                    textViewExcludeMessage.setText(R.string.exclude_albums_message);
-                    spinnerParents.setVisibility(View.GONE);
-                } else {
-                    textViewExcludeMessage.setText(R.string.exclude_album_message);
-                    spinnerParents.setAdapter(getThemeHelper().getSpinnerAdapter(adapter.getFirstSelectedAlbum().getParentsFolders()));
-                }
-
-                textViewExcludeMessage.setTextColor(getTextColor());
-                excludeDialogBuilder.setView(excludeDialogLayout);
-
-                excludeDialogBuilder.setPositiveButton(this.getString(R.string.exclude).toUpperCase(), (dialog, id) -> {
-
-                    if (adapter.getSelectedCount() > 1) {
-                        for (Album album : adapter.getSelectedAlbums()) {
-                            db().excludeAlbum(album.getPath());
-                            excuded.add(album.getPath());
-                        }
-                        adapter.removeSelectedAlbums();
-
-                    } else {
-                        String path = spinnerParents.getSelectedItem().toString();
-                        db().excludeAlbum(path);
-                        excuded.add(path);
-                        adapter.removeAlbumsThatStartsWith(path);
-                        adapter.forceSelectedCount(0);
-                    }
-                    updateToolbar();
-                });
-                excludeDialogBuilder.setNegativeButton(this.getString(R.string.cancel).toUpperCase(), null);
-                excludeDialogBuilder.show();
-                return true;
+//            case R.id.exclude:
+//                final AlertDialog.Builder excludeDialogBuilder = new AlertDialog.Builder(getActivity(), getDialogStyle());
+//
+//                final View excludeDialogLayout = LayoutInflater.from(getContext()).inflate(R.layout.dialog_exclude, null);
+//                TextView textViewExcludeTitle = excludeDialogLayout.findViewById(R.id.text_dialog_title);
+//                TextView textViewExcludeMessage = excludeDialogLayout.findViewById(R.id.text_dialog_message);
+//                final Spinner spinnerParents = excludeDialogLayout.findViewById(R.id.parents_folder);
+//
+//                spinnerParents.getBackground().setColorFilter(getIconColor(), PorterDuff.Mode.SRC_ATOP);
+//
+//                ((CardView) excludeDialogLayout.findViewById(R.id.message_card)).setCardBackgroundColor(getCardBackgroundColor());
+//                textViewExcludeTitle.setBackgroundColor(getPrimaryColor());
+//                textViewExcludeTitle.setText(getString(R.string.exclude));
+//
+//                if(adapter.getSelectedCount() > 1) {
+//                    textViewExcludeMessage.setText(R.string.exclude_albums_message);
+//                    spinnerParents.setVisibility(View.GONE);
+//                } else {
+//                    textViewExcludeMessage.setText(R.string.exclude_album_message);
+//                    spinnerParents.setAdapter(getThemeHelper().getSpinnerAdapter(adapter.getFirstSelectedAlbum().getParentsFolders()));
+//                }
+//
+//                textViewExcludeMessage.setTextColor(getTextColor());
+//                excludeDialogBuilder.setView(excludeDialogLayout);
+//
+//                excludeDialogBuilder.setPositiveButton(this.getString(R.string.exclude).toUpperCase(), (dialog, id) -> {
+//
+//                    if (adapter.getSelectedCount() > 1) {
+//                        for (Album album : adapter.getSelectedAlbums()) {
+//                            db().excludeAlbum(album.getPath());
+//                            excuded.add(album.getPath());
+//                        }
+//                        adapter.removeSelectedAlbums();
+//
+//                    } else {
+//                        String path = spinnerParents.getSelectedItem().toString();
+//                        db().excludeAlbum(path);
+//                        excuded.add(path);
+//                        adapter.removeAlbumsThatStartsWith(path);
+//                        adapter.forceSelectedCount(0);
+//                    }
+//                    updateToolbar();
+//                });
+//                excludeDialogBuilder.setNegativeButton(this.getString(R.string.cancel).toUpperCase(), null);
+//                excludeDialogBuilder.show();
+//                return true;
 
             case R.id.delete:
 

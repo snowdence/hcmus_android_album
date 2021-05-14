@@ -11,9 +11,6 @@ import org.horaapps.liz.ThemedViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by dnld on 01/04/17.
- */
 
 public abstract class BaseAdapter<T, VH extends ThemedViewHolder> extends ThemedAdapter<VH> implements Themed {
 

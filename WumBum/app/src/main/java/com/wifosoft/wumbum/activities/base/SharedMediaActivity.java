@@ -10,9 +10,6 @@ import com.wifosoft.wumbum.R;
 import com.wifosoft.wumbum.helper.AlertDialogsHelper;
 import com.wifosoft.wumbum.helper.StorageHelper;
 
-/**
- * Created by dnld on 03/08/16.
- */
 
 public abstract class SharedMediaActivity extends BaseActivity {
 

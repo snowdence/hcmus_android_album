@@ -86,9 +86,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-/**
- * Created by dnld on 18/02/16.
- */
+
 @SuppressWarnings("ResourceAsColor")
 public class SingleMediaActivity extends SharedMediaActivity implements BaseMediaFragment.MediaTapListener {
 
@@ -697,13 +695,7 @@ public class SingleMediaActivity extends SharedMediaActivity implements BaseMedi
                 //SettingsActivity.startActivity(this);
                 break;
 
-            case R.id.action_palette:
-//                Intent paletteIntent = new Intent(getApplicationContext(), PaletteActivity.class);
-//                paletteIntent.setData(LegacyCompatFileProvider.getUri(this,
-//                        getCurrentMedia().getFile()));
-//                paletteIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//                startActivity(paletteIntent);
-                break;
+
 
             case R.id.action_print:
                 PrintHelper photoPrinter = new PrintHelper(this);

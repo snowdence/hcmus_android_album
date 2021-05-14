@@ -9,9 +9,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
-/**
- * Created by dnld on 06/03/16.
- */
+
 public class FabScrollBehaviour extends FloatingActionButton.Behavior {
 
     public FabScrollBehaviour(Context context, AttributeSet attributeSet) {

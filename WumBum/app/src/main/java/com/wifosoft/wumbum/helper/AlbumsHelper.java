@@ -29,9 +29,7 @@ import static com.wifosoft.wumbum.helper.MediaHelper.scanFile;
 import static com.wifosoft.wumbum.util.BitmapUtils.addWhiteBorder;
 import static com.wifosoft.wumbum.util.BitmapUtils.getCroppedBitmap;
 
-/**
- * Created by dnld on 3/25/17.
- */
+
 
 public class AlbumsHelper {
 

@@ -31,10 +31,7 @@ import org.horaapps.liz.ColorPalette;
 import java.io.File;
 import java.util.Locale;
 
-/**
- * Created by dnld on 01/04/16.
- * The SplashScreen Activity is released during the screen waiting time.
- */
+
 public class SplashScreen extends SharedMediaActivity {
 
     private final String TAG = SplashScreen.class.getSimpleName();

@@ -8,9 +8,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
-/**
- * Created by dnld on 01/04/16.
- */
 public final class PermissionUtils {
 
     public static boolean checkPermissions(Context context, String... permissions) {

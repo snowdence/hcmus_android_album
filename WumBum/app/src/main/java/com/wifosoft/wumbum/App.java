@@ -12,9 +12,7 @@ import com.squareup.leakcanary.LeakCanary;
 import com.wifosoft.wumbum.util.ApplicationUtils;
 import com.wifosoft.wumbum.util.preferences.Prefs;
 
-/**
- * Created by dnld on 28/04/16.
- */
+
 public class App extends MultiDexApplication {
 
     private static App mInstance;

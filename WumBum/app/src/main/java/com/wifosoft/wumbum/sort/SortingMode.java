@@ -3,9 +3,7 @@ package com.wifosoft.wumbum.sort;
 
 import android.provider.MediaStore;
 
-/**
- * Created by dnld on 18/08/16.
- */
+
 
 public enum SortingMode {
     NAME (0, MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME),

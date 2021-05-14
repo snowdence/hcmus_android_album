@@ -20,6 +20,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.orhanobut.hawk.Hawk;
 
 import com.wifosoft.wumbum.R;
+import com.wifosoft.wumbum.settings.ColorSetting;
 import com.wifosoft.wumbum.settings.GeneralSetting;
 
 import com.wifosoft.wumbum.views.SettingWithSwitchView;
@@ -38,20 +39,8 @@ import butterknife.Unbinder;
 public class SettingActivity extends ThemedActivity {
     private Toolbar toolbar;
 
-    @BindView(R.id.option_max_brightness) SettingWithSwitchView optionMaxBrightness;
-    @BindView(R.id.option_picture_orientation) SettingWithSwitchView optionOrientation;
-    @BindView(R.id.option_full_resolution) SettingWithSwitchView optionDelayFullRes;
-
-    @BindView(R.id.option_auto_update_media) SettingWithSwitchView optionAutoUpdateMedia;
-    @BindView(R.id.option_include_video) SettingWithSwitchView optionIncludeVideo;
-    @BindView(R.id.option_swipe_direction) SettingWithSwitchView optionSwipeDirection;
-
     @BindView(R.id.option_fab) SettingWithSwitchView optionShowFab;
-    @BindView(R.id.option_statusbar) SettingWithSwitchView optionStatusbar;
-    @BindView(R.id.option_colored_navbar) SettingWithSwitchView optionColoredNavbar;
 
-    @BindView(R.id.option_sub_scaling) SettingWithSwitchView optionSubScaling;
-    @BindView(R.id.option_disable_animations) SettingWithSwitchView optionDisableAnimations;
 
     private Unbinder unbinder;
 
@@ -76,26 +65,8 @@ public class SettingActivity extends ThemedActivity {
             }
         });
 
-        optionStatusbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateTheme();
-                setStatusBarColor();
-            }
-        });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (ViewUtil.hasNavBar(this)) {
-                optionColoredNavbar.setOnClickListener(new View.OnClickListener() {
-                    @SuppressLint("NewApi")
-                    @Override
-                    public void onClick(View view) {
-                        updateTheme();
-                        getWindow().setNavigationBarColor(isNavigationBarColored() ? getPrimaryColor() : ContextCompat.getColor(getApplicationContext(), R.color.md_black_1000));
-                    }
-                });
-            } else optionColoredNavbar.setVisibility(View.GONE);
-        }
+
         ScrollView scrollView = findViewById(R.id.settingAct_scrollView);
         setScrollViewColor(scrollView);
     }
@@ -133,21 +104,44 @@ public class SettingActivity extends ThemedActivity {
 
 
 
-    @OnClick(R.id.ll_custom_icon_color)
-    public void onChangedCustomIconClicked(View view) {
-        updateTheme();
-        updateUiElements();
-    }
 
-    @OnClick(R.id.ll_white_list)
-    public void onWhiteListClicked(View view) {
-        startActivity(new Intent(getApplicationContext(), BlackWhiteListActivity.class));
-    }
 
 
     @OnClick(R.id.ll_n_columns)
     public void onChangeColumnsClicked(View view) {
         new GeneralSetting(SettingActivity.this).editNumberOfColumns();
+    }
+
+    @OnClick(R.id.ll_basic_theme)
+    public void onChangeThemeClicked(View view) {
+        new ColorSetting(SettingActivity.this).chooseBaseTheme();
+    }
+
+    @OnClick(R.id.ll_primaryColor)
+    public void onChangePrimaryColorClicked(View view) {
+        final int originalColor = getPrimaryColor();
+        new ColorSetting(SettingActivity.this).chooseColor(R.string.primary_color, new ColorSetting.ColorChooser() {
+            @Override
+            public void onColorSelected(int color) {
+                Hawk.put(getString(R.string.preference_primary_color), color);
+                updateTheme();
+                updateUiElements();
+            }
+
+            @Override
+            public void onDialogDismiss() {
+                Hawk.put(getString(R.string.preference_primary_color), originalColor);
+                updateTheme();
+                updateUiElements();
+            }
+
+            @Override
+            public void onColorChanged(int color) {
+                Hawk.put(getString(R.string.preference_primary_color), color);
+                updateTheme();
+                updateUiElements();
+            }
+        }, getPrimaryColor());
     }
 
 }

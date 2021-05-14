@@ -6,9 +6,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.Registry;
 
-/**
- * Created by dnld on 10/03/16.
- */
+
 
 public class CustomGlideModule implements com.bumptech.glide.module.GlideModule {
 

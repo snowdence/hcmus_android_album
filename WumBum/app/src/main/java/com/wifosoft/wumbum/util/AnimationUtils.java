@@ -5,9 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.wifosoft.wumbum.util.preferences.Prefs;
 
-/**
- * Created by dnld on 24/02/18.
- */
+
 
 public class AnimationUtils {
 

@@ -37,9 +37,7 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 
 
-/**
- * Created by dnld on 19/05/16.
- */
+
 public class AlertDialogsHelper {
 
     public static  AlertDialog getInsertTextDialog(ThemedActivity activity, EditText editText, @StringRes int title) {

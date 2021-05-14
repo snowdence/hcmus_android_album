@@ -455,9 +455,6 @@ public class AllMediaFragment extends BaseMediaGridFragment {
                 adapter.clearSelected();
                 return true;
 
-            case R.id.action_palette:
-                Toast.makeText(getContext(), "Pallette not support", Toast.LENGTH_SHORT).show();
-                return true;
 
             case R.id.rename:
                 final EditText editTextNewName = new EditText(getActivity());

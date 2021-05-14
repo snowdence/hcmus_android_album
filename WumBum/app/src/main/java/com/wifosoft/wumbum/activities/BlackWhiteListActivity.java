@@ -38,9 +38,7 @@ import jp.wasabeef.recyclerview.animators.LandingAnimator;
 import static com.wifosoft.wumbum.helper.MediaHelper.scanFile;
 
 
-/**
- * Created by dnld on 01/04/16.
- */
+
 public class BlackWhiteListActivity extends SharedMediaActivity {
 
     public static final String EXTRA_TYPE = "typeExcluded";
