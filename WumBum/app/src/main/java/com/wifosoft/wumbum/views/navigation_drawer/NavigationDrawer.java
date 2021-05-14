@@ -136,6 +136,10 @@ public class NavigationDrawer extends ScrollView implements Themed {
      * Called on parent onStart. Use for any kind of refresh activities.
      */
     public void refresh() {
+        hiddenFoldersEntry.setVisibility(GONE);
+        wallpapersEntry.setVisibility(GONE);
+        timelineEntry.setVisibility(GONE);
+//        donateEntry.setVisibility(GONE);
         timelineEntry.setVisibility(isDebug() && Prefs.timelineEnabled() ? VISIBLE : GONE);
     }
 

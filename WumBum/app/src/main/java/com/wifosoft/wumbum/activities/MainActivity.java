@@ -37,6 +37,7 @@ import com.mikepenz.iconics.typeface.IIcon;
 import com.orhanobut.hawk.Hawk;
 
 import com.wifosoft.wumbum.BuildConfig;
+import com.wifosoft.wumbum.PeopleRecognition;
 import com.wifosoft.wumbum.R;
 import com.wifosoft.wumbum.activities.base.SharedMediaActivity;
 //
@@ -560,15 +561,16 @@ public class MainActivity extends SharedMediaActivity implements
                 break;
 
             case NAVIGATION_ITEM_DONATE:
-                Toast.makeText(this, "Donate???", Toast.LENGTH_SHORT).show();
-                Prefs.clearAllData();
+                Toast.makeText(this, "PeopleRecognition", Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent(this,PeopleRecognition.class);
+                startActivity(intent);
                 break;
 
             case NavigationDrawer.NAVIGATION_ITEM_AFFIX:
                 // Intent i = new Intent(getBaseContext(), AffixActivity.class);
                 //startActivity(i);
                 //   AffixActivity.startActivity(this);
-                Toast.makeText(this, "Affix", Toast.LENGTH_SHORT).show();
+
                 break;
             case NAVIGATION_ITEM_SETTINGS:
                 SettingActivity.startActivity(this);
