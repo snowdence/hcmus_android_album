@@ -326,7 +326,7 @@
     <string name="tags">Tags</string>
     <string name="timeline">Timeline</string>
     <string name="wallpapers">Wallpapers</string>
-    <string name="donate">Donate</string>
+    <string name="donate">Detect Face</string>
     <string name="github" translatable="false">GitHub</string>
 
     <!--VIDEO PLAYER-->

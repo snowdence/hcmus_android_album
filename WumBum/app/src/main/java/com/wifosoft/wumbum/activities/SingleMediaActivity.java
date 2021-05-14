@@ -682,7 +682,7 @@ public class SingleMediaActivity extends SharedMediaActivity implements BaseMedi
                 detailsDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string
                         .ok_action).toUpperCase(), (dialog, which) -> dialog.dismiss());
 
-                detailsDialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.fix_date).toUpperCase(), (dialog, which) -> {
+                detailsDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "", (dialog, which) -> {
                     // todo
                     //if (!getCurrentMedia().fixDate())
                     Toast.makeText(SingleMediaActivity.this, R.string.unable_to_fix_date, Toast.LENGTH_SHORT).show();
@@ -692,7 +692,7 @@ public class SingleMediaActivity extends SharedMediaActivity implements BaseMedi
                 break;
 
             case R.id.action_settings:
-                //SettingsActivity.startActivity(this);
+                SettingActivity.startActivity(this);
                 break;
 
 

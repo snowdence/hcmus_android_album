@@ -147,7 +147,7 @@ public class MainActivity extends SharedMediaActivity implements
     public void onResume() {
         super.onResume();
         if (Prefs.vietnameseEnabled()) {
-            Locale locale = new Locale("vi", "VN");
+            Locale locale = new Locale("vi", "rVN");
             Locale.setDefault(locale);
             Resources resources = this.getResources();
             Configuration config = resources.getConfiguration();
