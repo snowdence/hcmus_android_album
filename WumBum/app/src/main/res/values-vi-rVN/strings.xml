@@ -134,6 +134,7 @@
   <string name="multi_column">"Đa cột "</string>
   <string name="multi_column_sub">Bạn muốn chọn bao nhiêu cột cho folder và media</string>
   <string name="base_theme_sub">Chọn theme chính</string>
+  <string name="base_theme">Chọn theme</string>
   <string name="resolution">Độ phân giải</string>
   <string name="label_eraser">Xóa</string>
   <string name="label_eraser_mode">Chế độ xóa</string>
@@ -168,6 +169,7 @@
   <string name="timeline">Dòng thời gian</string>
   <string name="language">Ngôn ngữ</string>
   <string name="language_sub">Thay đổi ngôn ngữ</string>
+  <string name="about">Thông tin</string>
 
   <!--DONATE STRINGS-->
   <!--ABOUT STRINGS-->

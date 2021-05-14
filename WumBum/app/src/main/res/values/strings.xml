@@ -33,7 +33,7 @@
 
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
-    <string name="hide">Hide</string>
+    <string name="hide">Secure Album</string>
     <string name="unhide">Unhide</string>
     <string name="ok_action">OK</string>
     <string name="rename_photo_action">Rename photo</string>
@@ -438,5 +438,6 @@
     <string name="all_images">All Images</string>
     <string name="language">Language</string>
     <string name="language_sub">Change Language</string>
+    <string name="enable_vn_description">Enable vietnamese for app</string>
 
 </resources>

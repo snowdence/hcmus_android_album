@@ -146,19 +146,27 @@ public class MainActivity extends SharedMediaActivity implements
     @Override
     public void onResume() {
         super.onResume();
+        if (Prefs.vietnameseEnabled()) {
+            Locale locale = new Locale("vi", "VN");
+            Locale.setDefault(locale);
+            Resources resources = this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }
+        else{
+            Locale.setDefault(Locale.getDefault());
+            Resources resources = this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(Locale.getDefault());
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }
 
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Locale locale = new Locale("vi", "VN");
-        Locale.setDefault(locale);
-        Resources resources = this.getResources();
-        Configuration config = resources.getConfiguration();
-        config.setLocale(locale);
-        resources.updateConfiguration(config, resources.getDisplayMetrics());
 
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);

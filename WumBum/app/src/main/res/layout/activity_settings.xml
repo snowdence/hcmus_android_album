@@ -51,22 +51,7 @@
                         android:textColor="@color/md_dark_background"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold"/>
-                    <!-- LANGUAGE -->
-                    <com.wifosoft.wumbum.views.SettingBasic
-                        android:id="@+id/ll_language"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:settingCaption="@string/language_sub"
-                        app:settingIcon="faw-language"
-                        app:settingTitle="@string/language"/>
-                    <!-- SECURITY -->
-                    <com.wifosoft.wumbum.views.SettingBasic
-                        android:id="@+id/ll_security"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:settingCaption="@string/security_sub"
-                        app:settingIcon="faw-user-secret"
-                        app:settingTitle="@string/security"/>
+
 
                     <!-- NUMBER OF COLUMNS -->
                     <com.wifosoft.wumbum.views.SettingBasic
@@ -84,11 +69,21 @@
                         android:id="@+id/option_fab"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         app:settingCaption="@string/fab_options_sub"
                         app:settingIcon="gmd-add-circle"
                         app:settingPreferenceKey="@string/preference_show_fab"
                         app:settingTitle="@string/fab_options" />
 
+                    <!-- Enable Timeline -->
+                    <com.wifosoft.wumbum.views.SettingWithSwitchView
+                        android:id="@+id/option_enable_vietnamese"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:settingCaption="@string/enable_vn_description"
+                        app:settingIcon="@string/language"
+                        app:settingPreferenceKey="@string/preference_enable_vietnamese"
+                        app:settingTitle="@string/enable_vietnamese"/>
 
 
                 </LinearLayout>
@@ -145,36 +140,6 @@
                 </LinearLayout>
             </com.wifosoft.wumbum.views.themeable.ThemedCardView>
 
-            <!--ADVANCED SETTING-->
-            <com.wifosoft.wumbum.views.themeable.ThemedCardView
-                android:id="@+id/advanced_setting_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/card_spacing"
-                android:clickable="true"
-                android:foreground="@drawable/ripple"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/small_spacing">
-
-
-                    <!-- Enable Timeline -->
-                    <com.wifosoft.wumbum.views.SettingWithSwitchView
-                        android:id="@+id/option_enable_vietnamese"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:settingCaption="@string/enable_timeline_desc"
-                        app:settingIcon="@string/icon_timeline"
-                        app:settingPreferenceKey="@string/preference_enable_timeline"
-                        app:settingTitle="@string/enable_vietnamese"/>
-
-                </LinearLayout>
-            </com.wifosoft.wumbum.views.themeable.ThemedCardView>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

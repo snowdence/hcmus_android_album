@@ -3,6 +3,7 @@ package com.wifosoft.wumbum.util.preferences;
 import android.content.Context;
 import androidx.annotation.NonNull;
 
+import com.android.vending.billing.IInAppBillingService;
 import com.wifosoft.wumbum.CardViewStyle;
 import com.wifosoft.wumbum.sort.SortingMode;
 import com.wifosoft.wumbum.sort.SortingOrder;
@@ -121,6 +122,13 @@ public class Prefs {
      */
     public static boolean timelineEnabled() {
         return getPrefs().get(Keys.TIMELINE_ENABLED, DefaultPrefs.TIMELINE_ENABLED);
+    }
+
+    public static boolean vietnameseEnabled() {
+        return getPrefs().get(Keys.ENABLE_VIETNAMESE, DefaultPrefs.ENABLE_VIETNAMESE);
+    }
+    public static void  toggleVietnamese(){
+        getPrefs().put(Keys.ENABLE_VIETNAMESE, !Prefs.vietnameseEnabled());
     }
 
     /**

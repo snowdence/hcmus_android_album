@@ -33,6 +33,7 @@ public class DefaultPrefs {
     public static final boolean SHOW_EASTER_EGG = false;
 
     public static final boolean ANIMATIONS_DISABLED = false;
+    public static final  boolean ENABLE_VIETNAMESE =true;
 
     public static final boolean TIMELINE_ENABLED = false;
 

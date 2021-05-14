@@ -23,6 +23,7 @@ import com.wifosoft.wumbum.R;
 import com.wifosoft.wumbum.settings.ColorSetting;
 import com.wifosoft.wumbum.settings.GeneralSetting;
 
+import com.wifosoft.wumbum.util.preferences.Prefs;
 import com.wifosoft.wumbum.views.SettingWithSwitchView;
 import org.horaapps.liz.ColorPalette;
 import org.horaapps.liz.ThemedActivity;
@@ -40,6 +41,7 @@ public class SettingActivity extends ThemedActivity {
     private Toolbar toolbar;
 
     @BindView(R.id.option_fab) SettingWithSwitchView optionShowFab;
+    @BindView(R.id.option_enable_vietnamese) SettingWithSwitchView optionShowVietnamese;
 
 
     private Unbinder unbinder;
@@ -102,6 +104,10 @@ public class SettingActivity extends ThemedActivity {
 
 
 
+    @OnClick(R.id.option_enable_vietnamese)
+    public void onChangeLanguague(View view) {
+        //Prefs.toggleVietnamese();
+    }
 
 
 
@@ -116,6 +122,7 @@ public class SettingActivity extends ThemedActivity {
     public void onChangeThemeClicked(View view) {
         new ColorSetting(SettingActivity.this).chooseBaseTheme();
     }
+
 
     @OnClick(R.id.ll_primaryColor)
     public void onChangePrimaryColorClicked(View view) {

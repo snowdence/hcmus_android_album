@@ -31,4 +31,6 @@ public class Keys {
     // Feature flags
     public static final String TIMELINE_ENABLED = "enable_timeline";
 
+    public static final String ENABLE_VIETNAMESE  = "enable_vietnamese";
+
 }

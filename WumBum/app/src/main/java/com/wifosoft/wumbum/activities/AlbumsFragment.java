@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
 import android.location.Location;
@@ -36,6 +37,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.exifinterface.media.ExifInterface;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -73,6 +75,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -119,6 +122,29 @@ public class AlbumsFragment extends BaseMediaGridFragment {
         excuded = db().getExcludedFolders(getContext());
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
         getLastLocation();
+
+    }
+
+    @Override
+    public void onAttachFragment(@NonNull Fragment childFragment) {
+        super.onAttachFragment(childFragment);
+
+
+        if (Prefs.vietnameseEnabled()) {
+            Locale locale = new Locale("vi", "VN");
+            Locale.setDefault(locale);
+            Resources resources = this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }
+        else{
+            Locale.setDefault(Locale.getDefault());
+            Resources resources = this.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(Locale.getDefault());
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }
     }
 
     @SuppressLint("MissingPermission")
