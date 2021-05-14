@@ -431,6 +431,10 @@
     <string name="msg_share_image">Share Image</string>
     <string name="set_password">Set password</string>
     <string name="status_secure_password">Status Secure</string>
-    <string name="detail_secure_password">Success to secure this album</string>>
+    <string name="detail_secure_password">Success to secure this album</string>
+    <string name="all_albums">All Albums</string>
+    <string name="all_images">All Images</string>
+    <string name="language">Language</string>
+    <string name="language_sub">Change Language</string>
 
 </resources>

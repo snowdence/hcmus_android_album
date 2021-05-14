@@ -152,6 +152,13 @@ public class MainActivity extends SharedMediaActivity implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Locale locale = new Locale("vi", "VI");
+        Locale.setDefault(locale);
+        Resources resources = this.getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
+
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
 
