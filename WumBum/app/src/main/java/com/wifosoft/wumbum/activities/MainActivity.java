@@ -152,7 +152,7 @@ public class MainActivity extends SharedMediaActivity implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Locale locale = new Locale("vi", "VI");
+        Locale locale = new Locale("vi", "VN");
         Locale.setDefault(locale);
         Resources resources = this.getResources();
         Configuration config = resources.getConfiguration();
